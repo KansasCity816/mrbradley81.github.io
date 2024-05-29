@@ -283,6 +283,24 @@
         .state-list li:hover {
             background-color: #0056b3;
         }
+
+      .state-list li i {
+            margin-right: 5px;
+        }
+        @media (max-width: 768px) {
+            .state-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 480px) {
+            .state-list {
+                grid-template-columns: 1fr;
+            }
+            .container {
+                width: 100%;
+                padding: 10px;
+            }
+        }
     </style>
 </head>
  <div class="container">
