@@ -168,7 +168,20 @@
 
   </div>
   <!-- ==================== Page-Title (End) ==================== -->
-  
+  <div class="container">
+        <h1 id="city-name">City Name</h1>
+        <p>Welcome to <span id="city-display">City</span>! Here is some information about the city.</p>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const cityName = urlParams.get('city');
+            if (cityName) {
+                document.getElementById('city-name').innerText = cityName;
+                document.getElementById('city-display').innerText = cityName;
+            }
+        });
+    </script>
 
   
   <!-- ==================== Request Quote Area (Start) ==================== -->
