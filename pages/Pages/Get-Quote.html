@@ -170,7 +170,7 @@
   <!-- ==================== Page-Title (End) ==================== -->
   <div class="container">
         <h1 id="city-name">City Name</h1>
-        <p>Welcome to <span id="city-display">City</span>! Here is some information about the city.</p>
+        <p>Welcome to <span id="city-display">City</span>! Get a quote for our services in <span id="city-display-paragraph">this location</span>.</p>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -179,6 +179,7 @@
             if (cityName) {
                 document.getElementById('city-name').innerText = cityName;
                 document.getElementById('city-display').innerText = cityName;
+                document.getElementById('city-display-paragraph').innerText = cityName;
             }
         });
     </script>
