@@ -18,6 +18,18 @@
   <!-- Custom Stylesheets -->
   <link rel="stylesheet" href="../../assets/css/main.css"> 
   <link rel="stylesheet" href="../../assets/css/responsive.css">
+      
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const cityName = urlParams.get('city');
+            if (cityName) {
+                document.getElementById('city-name').innerText = cityName;
+                document.getElementById('city-display').innerText = cityName;
+                document.getElementById('city-display-paragraph').innerText = cityName;
+            }
+        });
+    </script>
 
 </head> 
 <body>
@@ -182,8 +194,8 @@
             <div class="heading">
               <div class="sub"><span>Ensuring Property Security</span><i class="fa-solid fa-lock"></i></div>
             </div>
-            <h2>Join Us in Promoting Locksmith Excellence</h2>
-            <a href="../../pages/Pages/Get-Quote.html" class="btn">Get a Quote</a>
+            <h2>Lock Champions Locksmith <h2 id="city-name"><span id="city-display">City</span>, Minnesota </h2>
+           
           </div>
   
           <div class="banner-2">
