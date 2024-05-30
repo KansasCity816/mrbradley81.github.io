@@ -23,10 +23,11 @@
         document.addEventListener("DOMContentLoaded", function() {
             const urlParams = new URLSearchParams(window.location.search);
             const cityName = urlParams.get('city');
-            if (cityName) {
-                document.getElementById('city-name').innerText = cityName;
+            const stateName = urlParams.get('state');
+            if (cityName && stateName) {
+                document.getElementById('city-name').innerText = `${cityName}, ${stateName}`;
                 document.getElementById('city-display').innerText = cityName;
-                document.getElementById('city-display-paragraph').innerText = cityName;
+                document.getElementById('state-display').innerText = stateName;
             }
         });
     </script>
@@ -192,7 +193,7 @@
             <div class="heading">
               <div class="sub"><span>Lock Champions Locksmith</span><i class="fa-solid fa-lock"></i></div>
             </div>
-            <h2 id="city-name"><span id="city-display">City, Minnesota</span></h2>
+            <h2 id="city-name"><span id="city-display">City</span></h2>
            
           </div>
   
