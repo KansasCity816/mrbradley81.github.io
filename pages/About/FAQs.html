@@ -18,7 +18,18 @@
   <!-- Custom Stylesheets -->
   <link rel="stylesheet" href="../../assets/css/main.css">
   <link rel="stylesheet" href="../../assets/css/responsive.css">
-
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const cityName = urlParams.get('city');
+            const stateName = urlParams.get('state');
+            if (cityName && stateName) {
+                document.getElementById('city-name').innerText = `${cityName}, ${stateName}`;
+                document.getElementById('city-display').innerText = cityName;
+                document.getElementById('state-display').innerText = stateName;
+            }
+        });
+    </script>
 </head> 
 <body>
 
