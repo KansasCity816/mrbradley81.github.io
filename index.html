@@ -24,7 +24,18 @@
   <!-- Custom Stylesheets -->
   <link rel="stylesheet" href="./assets/css/main.css">
   <link rel="stylesheet" href="./assets/css/responsive.css">
-
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const cityName = urlParams.get('city');
+            const stateName = urlParams.get('state');
+            if (cityName && stateName) {
+                document.getElementById('city-name').innerText = `${cityName}, ${stateName}`;
+                document.getElementById('city-display').innerText = cityName;
+                document.getElementById('state-display').innerText = stateName;
+            }
+        });
+    </script>
 </head>
 <body>
 
@@ -44,7 +55,7 @@
 
       <!-- == Contacts == -->
       <ul class="header-contacts">
-        <li><i class="fas fa-map-marker-alt"></i><span>Minneapolis/St.Paul, Minnesota</span></li>
+        <li><i class="fas fa-map-marker-alt"></i><h2 id="city-name"><span id="city-display">City</span>, <span id="state-display">State</span></h2></li>
         <li><i class="fas fa-phone"></i><span>+1-651-867-7846</span></li>
         <li><i class="fas fa-envelope"></i><span class="gmail">lockchampionslocksmith@gmail.com</span></li>
       </ul>
@@ -1030,7 +1041,7 @@
         <div class="info connect">
           <p><i class="fas fa-phone"></i><span>+1651-867-7846</span></p>
           <p><i class="fas fa-envelope"></i><span class="gmail">lockchampionslocksmith@gmail.com</span></p>
-          <p><i class="fas fa-map-marker-alt"></i><span>Minneapolis/St.Paul, Minnesota</span></p>
+          <p><i class="fas fa-map-marker-alt"></i><h2 id="city-name"><span id="city-display">City</span>, <span id="state-display">State</span></h2></p>
         </div>
   
         <!-- Social Media Links -->
@@ -1052,7 +1063,6 @@
           <p><i class="fa-solid fa-lock"></i><a href="./pages/Service/Service-Single.html">Lock Repair</a></p>
           <p><i class="fa-solid fa-lock"></i><a href="./pages/Service/Service-Single.html">Security Consultation</a></p>
           <p><i class="fa-solid fa-lock"></i><a href="./pages/Service/Service-Single.html">Lockout Assistance</a></p>
-          <p><i class="fa-solid fa-lock"></i><a href="./pages/Service/Service-Single.html">Master Key</a></p>
         </div>
       </div>
   
