@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>    
+       
+  <meta charset="UTF-8"> 
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Title -->  
+  <title>Lock Champions | Locksmith </title>      
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="../../assets/images/favicon.ico">
+
+  <!-- Font-Awesome (CSS) -->
+  <link rel="stylesheet" href="../../assets/vendors/font-awesome/css/all.min.css">
+
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+<script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const cityName = urlParams.get('city');
+            const stateName = urlParams.get('state');
+            if (cityName && stateName) {
+                document.getElementById('city-name').innerText = `${cityName}, ${stateName}`;
+                document.getElementById('city-display').innerText = cityName;
+                document.getElementById('state-display').innerText = stateName;
+            }
+        });
+    </script>
+</head>
+
+<body>
+
+  <!-- ==================== Scroll-Top Area (Start) ==================== -->
+  <a href="#" class="scroll-top">
+    <i class="fa-solid fa-arrow-up-long"></i>
+  </a>
+  <!-- ==================== Scroll-Top Area (End) ==================== -->
+
+
+
+  <!-- ==================== Header Area (Start) ==================== -->
+  <header class="header">
+
+    <!-- ===== Header-1 Area (Start) ===== -->
+    <div class="header-1">
+
+      <!-- == Contacts == -->
+      <ul class="header-contacts">
+        <li><i class="fas fa-map-marker-alt"></i><span>Minneapolis/St.Paul, Minnesota</span></li>
+        <li><i class="fas fa-phone"></i><span>+1-651-867-7846</span></li>
+        <li><i class="fas fa-envelope"></i><span class="gmail">lockchampionslocksmith@gmail.com</span></li>
+      </ul>
+
+      <!-- == Social == -->
+      <ul class="social-contacts">
+        <li><a href="#" class="fab fa-facebook-f"></a></li>
+        <li><a href="#" class="fab fa-twitter"></a></li>
+        <li><a href="#" class="fab fa-instagram"></a></li>
+        <li><a href="#" class="fab fa-linkedin"></a></li>
+      </ul>
+
+    </div>
+    <!-- ===== Header-1 Area (End) ===== -->
+
+    <!-- ===== Header-2 Area (Start) ===== -->
+    <div class="header-2">
+
+      <!-- == Logo == -->
+      <a class="logo" href="../../index.html">
+        <img src="../../assets/images/Logo/Logo.png" alt="logo">
+      </a>
+
+      <div class="container">
+
+        <!-- == Navbar == -->
+        <nav class="navbar">
+
+          <a class="nav-btn" href="../../index.html">home</a>
+
+          <a class="nav-btn" href="../../pages/Pages/Emergency.html">emergency</a>
+
+          <div class="dropdown-menu">
+            <button class="nav-btn">about</button>
+            <div class="dropdown-content">
+              <a href="../../pages/About/About.html">about us</a>
+              <a href="../../pages/About/Testimonials.html">testimonials</a>
+              <a href="../../pages/About/FAQs.html">fAQs</a>
+            </div>
+          </div>
+ 
+          <div class="dropdown-menu">
+            <button class="nav-btn">Services & Locations</button>
+            <div class="dropdown-content">
+              <a href="../../pages/Service/Services.html">Services & Locations</a>
+            </div>
+          </div>
+
+          <a class="nav-btn" href="../../pages/Contact/Contact.html">contact</a>
+
+        </nav> 
+
+        <!-- == Icon Container == -->
+        <div class="icon-container"> 
+          <div id="search-btn" class="icon fa-solid fa-magnifying-glass"></div> <!-- Search Icon -->
+          <div id="menu-btn" class="icon fa-solid fa-bars-staggered"></div>
+          <a href="../../pages/Pages/Get-Quote.html?city=Saint%20Paul&state=Minnesota" class="btn">get A quote</a>
+        </div>
+
+        <!-- == Search Container == -->
+        <form class="search-container">
+          <input type="search" id="search-bar" placeholder="search here" required> <!-- Search Input -->
+          <button type="submit"><i class="fas fa-search"></i></button> <!-- Submit Button -->
+        </form>
+
+      </div>
+
+    </div>
+    <!-- ===== Header-2 Area (End) ===== -->
+
+    <!-- ===== Mobile Menu Area (Start) ===== -->
+    <div class="mobile-menu"> 
+    
+      <nav class="mobile-navbar">
+
+        <div class="nav-link">
+          <div class="main-nav-link"> <a class="nav-btn" href="../../index.html">home</a> </div>
+        </div>   
+
+        <div class="nav-link">
+          <div class="main-nav-link"> <a class="nav-btn" href="../../pages/Pages/Emergency.html">emergency</a> </div>
+        </div>  
+
+        <div class="nav-link">
+          <div class="main-nav-link"> <div class="nav-btn">about</div> <i class="fas fa-plus"></i> </div>
+          <div class="sub-nav-link">
+            <a href="../../pages/About/About.html">about us</a>
+            <a href="../../pages/About/Testimonials.html">testimonials</a>
+            <a href="../../pages/About/FAQs.html">fAQs</a>
+          </div>
+        </div> 
+
+
+        <div class="nav-link">
+          <div class="main-nav-link"> <div class="nav-btn">Services & Locations</div> <i class="fas fa-plus"></i> </div>
+          <div class="sub-nav-link">
+            <a href="../../pages/Service/Services.html">Services & Locations</a>
+          </div>
+        </div> 
+
+
+        <div class="nav-link">
+          <div class="main-nav-link"> <a class="nav-btn" href="../../pages/Contact/Contact.html">contact</a> </div>
+        </div>  
+
+      </nav> 
+    
+    </div>
+    <!-- ===== Mobile Menu Area (End) ===== -->
+
+  </header>
+  <!-- ==================== Header Area (End) ==================== -->  
+
+  
+        
+  <!-- ==================== Page-Title (Start) ==================== -->
+  <div class="page-title">
+
+    <div class="title">
+      <h2>Contact</h2>
+    </div> 
+
+    <div class="link">
+      <a href="../../index.html">Home</a>
+      <i class="fa-solid fa-angles-right"></i>
+      <span class="page">Contact</span>
+    </div>
+
+  </div>
+  <!-- ==================== Page-Title (End) ==================== -->
+ 
+        
+ 
+  <!-- ==================== Contact Area (Start) ==================== -->
+  <section class="contact" id="contact">
+
+    <div class="box-container"> 
+
+      <!-- ========== Contact Info (Start) ========== -->
+      <div class="contact-info">
+
+        <div class="heading">
+          <div class="sub"><span>get in touch</span><i class="fa-solid fa-lock"></i></div> <!-- Sub Heading -->
+          <h2>contact info</h2>
+        </div>
+
+        <div class="contact-info-container">
+
+          <!-- Address Info -->
+          <div class="info-item">
+            <i class="fa-solid fa-map-location-dot"></i>
+            <div class="content">
+              <h3>address</h3>
+              <p>Minneapolis/St.Paul, Minnesota</p>
+            </div>
+          </div>
+        
+          <!-- Phone Info -->
+          <div class="info-item">
+            <i class="fas fa-phone"></i>
+            <div class="content">
+              <h3>call us</h3>
+              <p>+1-651-867-7846</p>
+            </div>
+          </div>
+        
+          <!-- Email Info -->
+          <div class="info-item">
+            <i class="fas fa-envelope"></i>
+            <div class="content">
+              <h3>mail us</h3>
+              <p class="gmail">lockchampionslocksmith@gmail.com</p>
+            </div>
+          </div>
+
+          <!-- Email Info -->
+          <div class="info-item">
+            <i class="fa-solid fa-clock"></i>
+            <div class="content">
+              <h3>Opening Hours</h3>
+              <p>Mon - Fri: 24/7</p>
+              <p>Sat - Sun: 24/7</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>    
+      <!-- ========== Contact Info (End) ========== -->
+
+      <!-- ========== Contact Form (Start) ========== -->
+      <form method="post" class="dark-form" id="contact-form">
+
+        <!-- Form Heading -->
+        <div class="heading">
+          <div class="sub"><span>Contact Us for Assistance</span><i class="fa-solid fa-lock"></i></div> <!-- Sub Heading -->
+          <h2>Send Us a Message</h2>
+        </div>
+      
+        <!-- Name Input Field -->
+        <div class="input-box">
+          <div class="input-field">
+            <label for="name" class="fas fa-user"></label>
+            <input type="text" name="name" class="box" id="name" placeholder="Name" required>
+          </div>
+        </div>
+      
+        <!-- Email Input Field -->
+        <div class="input-box">
+          <div class="input-field">
+            <label for="email" class="fa-solid fa-envelope"></label>
+            <input type="email" name="email" class="box" id="email" placeholder="Email" required>
+          </div>
+        </div>
+      
+        <!-- Phone Number Input Field -->
+        <div class="input-box">
+          <div class="input-field">
+            <label for="number" class="fas fa-phone"></label>
+            <input type="text" name="number" class="box" id="number" placeholder="Phone Number" required>
+          </div>
+        </div>
+      
+        <!-- Comment/Message Textarea -->
+        <div class="input-box">
+          <div class="input-field text-area">
+            <label for="comment" class="fas fa-comment"></label>
+            <textarea cols="30" rows="10" name="comment" class="box" id="comment" placeholder="Message" required></textarea>
+          </div>
+        </div>
+      
+        <!-- Submit Button -->
+        <button type="submit" class="btn" name="submit" id="submit">Submit</button>
+      
+        <!-- Alert Message -->
+        <span class="alert" id="msg"></span>
+      
+      </form>
+      <!-- ========== Contact Form (End) ========== --> 
+
+    </div>
+
+   
+  </section>
+  <!-- ==================== Contact Area (End) ==================== -->
+
+
+
+  <!-- ==================== Footer Area (Start) ==================== -->
+  <footer class="footer">
+
+    <div class="box-container">
+  
+      <!-- Locksmith Company Information & Social Media Links -->
+      <div class="footer-item">
+  
+        <!-- Locksmith Company Logo -->
+        <a class="logo" href="../../index.html">
+          <img src="../../assets/images/Logo/Logo.png" alt="Locksmith Company Logo">
+        </a>
+  
+        <!-- Description -->
+        <p>Ensuring security and peace of mind with professionalism, reliability, and dedication.</p>
+  
+        <!-- Contact Information -->
+        <div class="info connect">
+          <p><i class="fas fa-phone"></i><span>+1-651-867-7846</span></p>
+          <p><i class="fas fa-envelope"></i><span class="gmail">lockchampionslocksmith@gmail.com
+</span></p>
+          <p><i class="fas fa-map-marker-alt"></i><span>
+Minneapolis/St.Paul, Minnesota</span></p>
+        </div>
+  
+        <!-- Social Media Links -->
+        <div class="social">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin"></i></a>
+        </div>
+  
+      </div>
+  
+      <!-- Locksmith Services -->
+      <div class="footer-item">
+        <h2>Our Services</h2>
+        <div class="info links">
+          <p><i class="fa-solid fa-lock"></i><a href="../../pages/Service/Service-Single.html">Lock Installation</a></p>
+          <p><i class="fa-solid fa-lock"></i><a href="../../pages/Service/Service-Single.html">Key Duplication</a></p>
+          <p><i class="fa-solid fa-lock"></i><a href="../../pages/Service/Service-Single.html">Lock Repair</a></p>
+          <p><i class="fa-solid fa-lock"></i><a href="../../pages/Service/Service-Single.html">Security Consultation</a></p>
+          <p><i class="fa-solid fa-lock"></i><a href="../../pages/Service/Service-Single.html">Lockout Assistance</a></p>
+        </div>
+      </div>
+  
+      <!-- Quick Links -->
+      <div class="footer-item">
+        <h2>Quick Links</h2>
+        <div class="info links">
+          <p><i class="fa-solid fa-lock"></i><a href="../../pages/About/About.html">About Us</a></p>
+          <p><i class="fa-solid fa-lock"></i><a href="../../pages/Service/Services.html">Services & Locations</a></p>
+          <p><i class="fa-solid fa-lock"></i><a href="../../pages/Contact/Contact.html">Contact Us</a></p>
+        </div>
+      </div>
+  
+      <!-- Newsletter Subscription -->
+      <div class="footer-item">
+  
+        <h2>Newsletter</h2>
+        <p>Stay updated with the latest security tips, articles, and special offers from our locksmith community.</p>
+  
+        <form class="dark-form">
+          <div class="input-field">
+            <label for="news-email" class="fas fa-envelope"></label>
+            <input type="email" id="news-email" name="email" class="box" placeholder="Your email address" required>
+          </div>
+          <button type="submit" class="btn">Subscribe</button>
+        </form>
+  
+      </div>
+  
+    </div>
+  
+    <!-- Locksmith Company's Name and Copyright -->
+    <div class="content">
+      <p>Designed By Lock Champions | All Rights Reserved</p>
+    </div>
+  
+  </footer>  
+  <!-- ==================== Footer Area (End) ==================== -->
+
+
+
+  <!-- Jquery -->
+  <script src="../../assets/vendors/jquery/jquery.min.js"></script>
+
+  <!-- Custom Script Files -->
+  <script src="../../assets/js/script.js"></script> <!-- Custom JavaScript file with additional website functionality. -->
+  <script src="../../assets/js/nav-link-toggler.js"></script> <!-- Manages navigation link toggling (e.g., hamburger menu) for mobile devices -->
+
+  
+
+  <!-- ==================== Custom Script ==================== -->
+
+  <!-- Contact-Form Script -->
+  <script>
+    jQuery('#contact-form').on('submit',function(e){
+      jQuery('#contact-form #msg').html('');
+      jQuery('#contact-form #submit').html('Please wait');
+      jQuery('#contact-form #submit').attr('disabled',true);
+      jQuery.ajax({
+        url:'../../assets/php/submit.php',
+        type:'post',
+        data:jQuery('#contact-form').serialize(),
+        success:function(result){
+          jQuery('#contact-form #msg').html(result);
+          jQuery('#contact-form #submit').html('submit');
+          jQuery('#contact-form #submit').attr('disabled',false);
+          jQuery('#contact-form')[0].reset();
+        }
+      });
+      e.preventDefault();
+    });
+  </script>
+
+
+</body>
+</html>
