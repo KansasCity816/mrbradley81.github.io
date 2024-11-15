@@ -195,7 +195,7 @@
           <div class="dropdown-menu">
             <button class="nav-btn">Service Locations</button>
             <div class="dropdown-content">
-              <a href="./pages/Service/Minnesota.html">Minnesota</a>
+              <a href="./pages/Service/Minnesota/Minnesota.html">Minnesota</a>
             </div>
           </div>
 
@@ -236,14 +236,13 @@
         </div>   
 
         <div class="nav-link">
-          <div class="main-nav-link"> <a class="nav-btn" href="./pages/Pages/Emergency.html">emergency</a> </div>
+          <div class="main-nav-link"> <a class="nav-btn" href="./pages/Pages/Emergency.html">emergency services</a> </div>
         </div>  
 
         <div class="nav-link">
           <div class="main-nav-link"> <div class="nav-btn">about</div> <i class="fas fa-plus"></i> </div>
           <div class="sub-nav-link">
             <a href="./pages/About/About.html">about us</a>
-            <a href="./pages/About/Testimonials.html">testimonials</a>
             <a href="./pages/About/FAQs.html">fAQs</a>
           </div>
         </div> 
@@ -253,7 +252,7 @@
         <div class="nav-link">
           <div class="main-nav-link"> <div class="nav-btn">Service Locations</div> <i class="fas fa-plus"></i> </div>
           <div class="sub-nav-link">
-            <a href="./pages/Service/Minnesota.html">Minnesota</a>
+            <a href="./pages/Service/Minnesota/Minnesota.html">Minnesota</a>
           </div>
         </div> 
 
@@ -502,7 +501,7 @@
             <i class="fa-solid fa-lock"></i> <!-- Lock Icon -->
             <a href="./pages/Service/Service-Single.html"><h3>Emergency Lockout Assistance</h3></a> <!-- Service Title -->
             <p>Fast response and service for urgent lockout situations at any hour.</p> <!-- Service Description -->
-            <a href="./pages/Service/Service-Single.html" class="btn">read more</a>
+            <a href="./pages/Service/Services/Service-Single.html" class="btn">read more</a>
           </div>
         </div>
     
@@ -513,7 +512,7 @@
             <i class="fa-solid fa-key"></i> <!-- Key Icon -->
             <a href="./pages/Service/Service-Single.html"><h3>Residential & Automotive Lockout Services</h3></a> <!-- Service Title -->
             <p>24/7 lockout assistance to quickly restore access to homes and vehicles.</p> <!-- Service Description -->
-            <a href="./pages/Service/Service-Single.html" class="btn">read more</a>
+            <a href="./pages/Service/Services/Service-Single.html" class="btn">read more</a>
           </div>
         </div>
     
@@ -524,7 +523,7 @@
             <i class="fa-solid fa-tools"></i> <!-- Tools Icon -->
             <a href="./pages/Service/Service-Single.html"><h3>Lock Installation & Repair</h3></a> <!-- Service Title -->
             <p>Comprehensive services for the installation and repair of locks for residential, commercial, and automotive needs, ensuring security and functionality.</p> <!-- Service Description -->
-            <a href="./pages/Service/Service-Single.html" class="btn">read more</a>
+            <a href="./pages/Service/Services/Service-Single.html" class="btn">read more</a>
           </div>
         </div>
     
@@ -535,7 +534,7 @@
             <i class="fa-solid fa-shield-halved"></i> <!-- Shield Icon -->
             <a href="./pages/Service/Service-Single.html"><h3>Security Consultation</h3></a> <!-- Service Title -->
             <p>Comprehensive security consultations to assess and enhance your property's safety measures.</p> <!-- Service Description -->
-            <a href="./pages/Service/Service-Single.html" class="btn">read more</a>
+            <a href="./pages/Service/Services/Service-Single.html" class="btn">read more</a>
           </div>
         </div>
     
@@ -546,7 +545,7 @@
             <i class="fa-solid fa-door-open"></i> <!-- Door Icon -->
             <a href="./pages/Service/Service-Single.html"><h3>Safe Entry Services</h3></a> <!-- Service Title -->
             <p>Professional unlocking services to regain access to locked safes with precision and care.</p> <!-- Service Description -->
-            <a href="./pages/Service/Service-Single.html" class="btn">read more</a>
+            <a href="./pages/Service/Services/Service-Single.html" class="btn">read more</a>
           </div>
         </div>
     
@@ -557,7 +556,7 @@
             <i class="fa-solid fa-key"></i> <!-- Key Icon -->
             <a href="./pages/Service/Service-Single.html"><h3>Commercial Locksmith Services</h3></a> <!-- Service Title -->
             <p>Tailored solutions for businesses, including access control, high-security lock installations, and master key systems.</p> <!-- Service Description -->
-            <a href="./pages/Service/Service-Single.html" class="btn">read more</a>
+            <a href="./pages/Service/Services/Service-Single.html" class="btn">read more</a>
           </div>
         </div>
 
@@ -1009,11 +1008,13 @@
                 <label for="service" class="fas fa-tools"></label>
                 <select class="select-box" id="service" name="service">
                   <option value="">Services</option>
+                 <option value="lockout-assistance">24/7 Emergency Locksmith Services</option>
                   <option value="lock-installation">Lock Installation & Repair</option>
                   <option value="safe-entry">Safe Entry Services</option>
-                  <option value="lock-maintenance">Lock Maintenance Services</option>
-                  <option value="security-consultation">Security Assessment</option>
-                  <option value="lockout-assistance">Emergency Lockout Assistance</option>
+                  <option value="commercial-services">Commercial Locksmith Services</option>
+                  <option value="res-auto-services">Residential & Automotive Lockout Services</option>
+                  <option value="security-consultation">Security Consultation</option>
+                  
                 </select>
                 <div class="icon-container">
                   <i class="fas fa-angle-down"></i>
