@@ -3,11 +3,84 @@ layout: default
 title: "Blog"
 ---
 
-<h1>{{ page.title }}</h1>
-<ul>
-  {% for post in site.posts %}
-    <li>
-      <a href="{{ post.url | relative_url }}">{{ post.title }}</a> - {{ post.date | date: "%B %d, %Y" }}
-    </li>
-  {% endfor %}
-</ul>
+<!DOCTYPE html> 
+<html lang="en">
+<head>   
+  <meta charset="UTF-8">   
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"> 
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+ 
+  <!-- Title -->   
+  <title>Lock Champions Blog | Locksmith & Security System</title>   
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="../../assets/images/favicon.ico">
+
+  <!-- Font-Awesome (CSS) -->
+  <link rel="stylesheet" href="../../assets/vendors/font-awesome/css/all.min.css">
+
+  <!-- Custom Stylesheets -->
+  <link rel="stylesheet" href="../../assets/css/main.css">
+  <link rel="stylesheet" href="../../assets/css/responsive.css">
+</head>
+<body>
+ 
+  <!-- Header Area (Start) -->
+  <header class="header">
+    <!-- Header content from the provided template -->
+    <!-- Insert your existing header content here -->
+  </header>
+  <!-- Header Area (End) -->
+
+  <!-- Page-Title (Start) -->
+  <div class="page-title">
+    <div class="title">
+      <h2>{{ page.title }}</h2>
+    </div> 
+    <div class="link">
+      <a href="../../index.html">Home</a>
+      <i class="fa-solid fa-angles-right"></i>
+      <span class="page">Blog List</span>
+    </div>
+  </div>
+  <!-- Page-Title (End) -->
+
+  <!-- Blog List (Start) -->
+  <section class="blog list">
+    <!-- Blog Container -->
+    <div class="blog-container list">
+      <ul>
+        {% for post in site.posts %}
+          <li class="blog-item">
+            <div class="content">
+              <a class="main-heading" href="{{ post.url | relative_url }}">{{ post.title }}</a>
+              <div class="details">
+                <h3><i class="fa-solid fa-circle-user"></i><span>By {{ post.author | default: "Admin" }}</span></h3>
+                <h3><i class="fa-solid fa-calendar"></i><span>{{ post.date | date: "%B %d, %Y" }}</span></h3>
+              </div>
+              <div class="excerpt">
+                {{ post.excerpt | strip_html | truncatewords: 30 }}
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+  <!-- Blog List (End) -->
+
+  <!-- Footer Area (Start) -->
+  <footer class="footer">
+    <!-- Footer content from the provided template -->
+    <!-- Insert your existing footer content here -->
+  </footer>  
+  <!-- Footer Area (End) -->
+
+  <!-- Jquery -->
+  <script src="../../assets/vendors/jquery/jquery.min.js"></script>
+
+  <!-- Custom Script Files -->
+  <script src="../../assets/js/script.js"></script>
+  <script src="../../assets/js/nav-link-toggler.js"></script>
+</body>
+</html>
