@@ -139,37 +139,6 @@ color: var(--white);
 
 
 
-/* Hide all dropdown content by default */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-/* Show dropdown when hovering over Service Locations */
-.dropdown-menu:hover > .dropdown-content {
-    display: block;
-}
-
-/* Position the Indianapolis dropdown correctly */
-.dropdown {
-    position: relative;
-}
-
-.dropdown .dropdown-content {
-    display: none;
-    position: absolute;
-    left: 100%; /* Align submenu to the right of the parent */
-    top: 0;
-}
-
-/* Show Avon dropdown when hovering over Indianapolis */
-.dropdown:hover > .dropdown-content {
-    display: block;
-}
 
 
 
@@ -241,16 +210,18 @@ color: var(--white);
           </div>
  
           <div class="dropdown-menu">
-    <button class="nav-btn">Service Locations</button>
+    <button class="nav-btn">about</button>
     <div class="dropdown-content">
+        <a href="../../../../pages/About/About.html">about us</a>
         <div class="dropdown">
-            <a href="../../../../pages/Service/Indianapolis/Indianapolis.html" class="nav-btn">Indianapolis</a>
-            <div class="dropdown-content avon-dropdown">
-                <a href="../../../../pages/Service/Indianapolis/Avon.html">Avon</a>
+            <a href="../../../../pages/About/FAQs.html" class="nav-btn">fAQs</a>
+            <div class="dropdown-content">
+                <a href="../../../../pages/About/Test.html">Test</a>
             </div>
         </div>
     </div>
 </div>
+
 
 
 
