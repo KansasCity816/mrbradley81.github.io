@@ -136,31 +136,26 @@ color: var(--white);
 .request-quote {
     padding: 0px;
 }
-/* Hide all dropdown-content by default */
-.dropdown-content {
+
+
+
+/* Ensure the parent dropdown content is hidden initially */
+.dropdown .dropdown-content {
     display: none;
     position: absolute;
-    background-color: #f9f9f9;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
-    z-index: 1;
-}
-
-/* Show dropdown content on hover */
-.dropdown:hover > .dropdown-content {
-    display: block;
-}
-
-/* Position the sub-dropdown */
-.sub-dropdown {
-    position: absolute;
-    left: 100%; /* Position the submenu to the right of the parent menu */
+    left: 100%; /* Adjust as needed for submenu positioning */
     top: 0;
     background-color: #f9f9f9;
     min-width: 160px;
     box-shadow: 0px 8px 16px rgba(0,0,0,0.2);
     z-index: 1;
 }
+
+/* Show the submenu (Avon) when hovering over Indianapolis */
+.dropdown:hover > .dropdown-content {
+    display: block;
+}
+
 
 </style>
 </head> 
@@ -233,12 +228,13 @@ color: var(--white);
     <div class="dropdown-content">
         <div class="dropdown">
             <a href="../../../../pages/Service/Indianapolis/Indianapolis.html" class="nav-btn">Indianapolis</a>
-            <div class="dropdown-content sub-dropdown">
+            <div class="dropdown-content">
                 <a href="../../../../pages/Service/Indianapolis/Avon.html">Avon</a>
             </div>
         </div>
     </div>
 </div>
+
 
 
 
