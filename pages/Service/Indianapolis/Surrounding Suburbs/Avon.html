@@ -136,80 +136,6 @@ color: var(--white);
 .request-quote {
     padding: 0px;
 }
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f9f9f9;
-    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
-    z-index: 1;
-}
-
-.dropdown-menu:hover .dropdown-content {
-    display: block;
-}
-
-.submenu-content {
-    display: none;
-    position: absolute;
-    left: 100%;
-    top: 0;
-    background-color: #f9f9f9;
-}
-
-.dropdown-submenu:hover .submenu-content {
-    display: block;
-}
-
-.submenu-btn {
-    background: none;
-    border: none;
-    padding: 8px;
-    cursor: pointer;
-    text-align: left;
-}
-
-.submenu-btn:hover {
-    background-color: #ddd;
-}
-.nav-link {
-    position: relative;
-}
-
-.sub-nav-link {
-    display: none;
-    margin-left: 20px; /* Indent sub-menu items */
-}
-
-.main-nav-link {
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-}
-
-.main-nav-link:hover + .sub-nav-link,
-.nav-link:hover > .sub-nav-link {
-    display: block;
-}
-
-.nav-btn {
-    font-size: 16px;
-    padding: 8px;
-}
-
-.fas.fa-plus {
-    margin-left: 10px;
-}
-
-a {
-    text-decoration: none;
-    color: #000;
-    padding: 5px 0;
-    display: block;
-}
-
-a:hover {
-    color: #007bff;
-}
 
 </style>
 </head> 
@@ -280,20 +206,17 @@ a:hover {
           <div class="dropdown-menu">
     <button class="nav-btn">Service Locations</button>
     <div class="dropdown-content">
-        <div class="dropdown-submenu">
-            <button class="submenu-btn">Indianapolis</button>
-            <div class="submenu-content">
-                <a href="../../../../pages/Service/Indianapolis/Indianapolis.html">Indianapolis</a>
-                <div class="dropdown-submenu">
-                    <button class="submenu-btn">Surrounding Suburbs</button>
-                    <div class="submenu-content">
-                        <a href="../../../../pages/Service/Indianapolis/Surrounding Suburbs/Avon.html">Avon</a>
-                    </div>
-                </div>
+        <a href="../../../pages/Service/Minnesota/Minnesota.html">Minnesota</a>
+        <div class="dropdown">
+            <button class="nav-btn">Indianapolis</button>
+            <div class="dropdown-content">
+                <a href="../../../pages/Service/Indianapolis/Indianapolis.html">Indianapolis</a>
+                <a href="../../../pages/Service/Indianapolis/Avon.html">Avon</a>
             </div>
         </div>
     </div>
 </div>
+
 
 
           <a class="nav-btn" href="../../../../pages/Contact/Contact.html">contact</a>
