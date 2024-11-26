@@ -83,18 +83,7 @@
   <link rel="stylesheet" href="../../../assets/css/main.css"> 
   <link rel="stylesheet" href="../../../assets/css/responsive.css">
       
-<script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const cityName = urlParams.get('city');
-            const stateName = urlParams.get('state');
-            if (cityName && stateName) {
-                document.getElementById('city-name').innerText = `${cityName}, ${stateName}`;
-                document.getElementById('city-display').innerText = cityName;
-                document.getElementById('state-display').innerText = stateName;
-            }
-        });
-    </script>
+<script>document.addEventListener("DOMContentLoaded", function () {const linkContainer = document.querySelector('.link h1.page a');if (linkContainer) {const locationText = linkContainer.textContent.trim();const [city, state] = locationText.split(', '); const cityNameElements = document.querySelectorAll('.city-name');const cityDisplayElements = document.querySelectorAll('.city-display');const stateDisplayElements = document.querySelectorAll('.state-display');cityNameElements.forEach(el => el.textContent = `${city}, ${state}`);cityDisplayElements.forEach(el => el.textContent = city);stateDisplayElements.forEach(el => el.textContent = state);console.log(`City and State updated: ${city}, ${state}`);} else {console.error("City and State link not found in the .link section.");}});</script>
 <style>
 .banner {
     padding-top: 0;
@@ -133,7 +122,7 @@ color: var(--white);
 
       <!-- == Contacts == -->
       <ul class="header-contacts">
-        <li><i class="fas fa-map-marker-alt"></i><span id="city-name"><span id="city-display">City</span>, <span id="state-display">State</span></span></li>
+        <li><<span class="city-name"><span class="city-display">City</span>, <span class="state-display">State</span></span></li>
         <li><i class="fas fa-phone"></i><span>+1-651-867-7846</span></li>
         <li><i class="fas fa-envelope"></i><span class="gmail">lockchampionslocksmith@gmail.com</span></li>
       </ul>
@@ -428,7 +417,7 @@ color: var(--white);
         <div class="info connect">
           <p><i class="fas fa-phone"></i><span>+1-651-867-7846</span></p>
           <p><i class="fas fa-envelope"></i><span class="gmail">lockchampionslocksmith@gmail.com</span></p>
-          <p><i class="fas fa-map-marker-alt"></i><span>Fairmont, Minnesota</span></p>
+          <p><span class="city-name"><span class="city-display">City</span>, <span class="state-display">State</span></span></p>
         </div>
 
   
