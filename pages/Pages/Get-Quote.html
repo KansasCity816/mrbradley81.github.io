@@ -83,7 +83,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css"> 
   <link rel="stylesheet" href="../../assets/css/responsive.css">
       
-<script>document.addEventListener("DOMContentLoaded", function () {const linkContainer = document.querySelector('.link h1.page a');if (linkContainer) {const locationText = linkContainer.textContent.trim();const [city, state] = locationText.split(', '); const cityNameElements = document.querySelectorAll('.city-name');const cityDisplayElements = document.querySelectorAll('.city-display');const stateDisplayElements = document.querySelectorAll('.state-display');cityNameElements.forEach(el => el.textContent = `${city}, ${state}`);cityDisplayElements.forEach(el => el.textContent = city);stateDisplayElements.forEach(el => el.textContent = state);console.log(`City and State updated: ${city}, ${state}`);} else {console.error("City and State link not found in the .link section.");}});</script>
+<script>document.addEventListener("DOMContentLoaded", function () {const linkContainer = document.querySelector('.link h1.page a');if (linkContainer) {const locationText = linkContainer.textContent.trim();const [city, state] = locationText.split('/ '); const cityNameElements = document.querySelectorAll('.city-name');const cityDisplayElements = document.querySelectorAll('.city-display');const stateDisplayElements = document.querySelectorAll('.state-display');cityNameElements.forEach(el => el.textContent = `${city}, ${state}`);cityDisplayElements.forEach(el => el.textContent = city);stateDisplayElements.forEach(el => el.textContent = state);console.log(`City and State updated: ${city}, ${state}`);} else {console.error("City and State link not found in the .link section.");}});</script>
 <style>
 .banner {
     padding-top: 0;
@@ -122,7 +122,7 @@ color: var(--white);
 
       <!-- == Contacts == -->
       <ul class="header-contacts">
-        <li><span class="city-name"><span class="city-display">City</span></span></li>
+        <li><h2 class="city-name"><span class="city-display">City</span>/ <span class="state-display">State</span></h2></li>
         <li><i class="fas fa-phone"></i><span>+1-651-867-7846</span></li>
         <li><i class="fas fa-envelope"></i><span class="gmail">lockchampionslocksmith@gmail.com</span></li>
       </ul>
