@@ -85,47 +85,30 @@
       
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Step 1: Search the entire page for "City, State" pattern
-        function findCityAndState() {
-            const pageContent = document.body.innerText || ""; // Extract all visible text
-            const regex = /\b([A-Za-z\s]+),\s([A-Za-z\s]+)\b/; // Match "City, State" format
-            const match = pageContent.match(regex);
+        // Locate the container with the city and state link
+        const linkContainer = document.querySelector('.link h1.page a');
 
-            if (match) {
-                return { city: match[1], state: match[2] };
-            } else {
-                return null; // No match found
-            }
+        if (linkContainer) {
+            // Extract the text from the link
+            const locationText = linkContainer.textContent.trim(); // e.g., "Andover, Minnesota"
+            
+            // Split the text into city and state
+            const [city, state] = locationText.split(', '); // Split by comma and space
+
+            // Locate elements to update
+            const cityNameElement = document.getElementById('city-name');
+            const cityDisplayElement = document.getElementById('city-display');
+            const stateDisplayElement = document.getElementById('state-display');
+
+            // Update the elements if they exist
+            if (cityNameElement) cityNameElement.textContent = `${city}, ${state}`;
+            if (cityDisplayElement) cityDisplayElement.textContent = city;
+            if (stateDisplayElement) stateDisplayElement.textContent = state;
+
+            console.log(`City: ${city}, State: ${state} successfully updated!`);
+        } else {
+            console.error("City and State link not found in the .link section.");
         }
-
-        // Step 2: Dynamically update the DOM with "City, State"
-        function updateCityAndState() {
-            const location = findCityAndState();
-
-            if (location) {
-                const { city, state } = location;
-
-                // Check if the elements exist in the DOM
-                const cityNameElement = document.querySelector('#city-name');
-                const cityDisplayElement = document.querySelector('#city-display');
-                const stateDisplayElement = document.querySelector('#state-display');
-
-                if (cityNameElement) {
-                    cityNameElement.textContent = `${city}, ${state}`;
-                }
-                if (cityDisplayElement) {
-                    cityDisplayElement.textContent = city;
-                }
-                if (stateDisplayElement) {
-                    stateDisplayElement.textContent = state;
-                }
-            } else {
-                console.warn("No 'City, State' pattern found on the page.");
-            }
-        }
-
-        // Step 3: Run the function to update the page
-        updateCityAndState();
     });
 </script>
 <style>
