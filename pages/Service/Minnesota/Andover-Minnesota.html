@@ -87,16 +87,16 @@
     document.addEventListener("DOMContentLoaded", function () {
         // Function to find city and state based on page content
         function findCityAndState() {
-            // Search within the body text of the page
+            // Get all text from the page content
             const pageContent = document.body.innerText;
 
-            // Regular expression to find "City, ST" pattern
-            const regex = /\b([A-Za-z\s]+),\s([A-Z]{2})\b/; // Looks for "City, ST" format
-            
+            // Regular expression to match "City, State" pattern
+            const regex = /\b([A-Za-z\s]+),\s([A-Za-z\s]+)\b/; // Matches "City, State" format
+
             const match = pageContent.match(regex);
-            
+
             if (match) {
-                console.log("City and State found:", match[1], match[2]); // Log for debugging
+                console.log("City and State found:", match[1], match[2]); // Debug log
                 return { city: match[1], state: match[2] };
             } else {
                 console.warn("City and State not found in page content.");
@@ -107,10 +107,11 @@
         // Find city and state using the function
         const location = findCityAndState();
 
-        // Update the page if a match is found
+        // Update the page dynamically if a match is found
         if (location) {
             const { city, state } = location;
 
+            // Check for elements before updating
             const cityNameElement = document.getElementById('city-name');
             const cityDisplayElement = document.getElementById('city-display');
             const stateDisplayElement = document.getElementById('state-display');
@@ -289,7 +290,7 @@ color: var(--white);
 
     <div class="link">
       <a href="/index.html">Home</a>
-      <i class="fa-solid fa-angles-right"></i><span class="page">Get a Quote</span><h1 class="page" style="margin-bottom: 3px; font-size: 20px;"><a href="https://lockchampionslocksmith.com/pages/Service/Minnesota/Andover-Minnesota.html">Andover, Minnesota</a></h1>
+      <i class="fa-solid fa-angles-right"></i><span class="page">Get a Quote</span><i class="fa-solid fa-angles-right"></i><h1 class="page" style="margin-bottom: 3px; font-size: 20px;"><a href="https://lockchampionslocksmith.com/pages/Service/Minnesota/Andover-Minnesota.html">Andover, Minnesota</a></h1>
     </div>
 
   </div>
