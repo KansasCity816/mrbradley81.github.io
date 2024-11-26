@@ -84,24 +84,42 @@
   <link rel="stylesheet" href="../../../assets/css/responsive.css">
       
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        // Function to extract city and state from the page content
+    document.addEventListener("DOMContentLoaded", function () {
+        // Function to find city and state based on page content
         function findCityAndState() {
-            const pageContent = document.body.innerText; // Get all text from the page
-            const regex = /([A-Za-z\s]+),\s([A-Za-z]{2})/; // Match "City, State" pattern
+            // Search within the body text of the page
+            const pageContent = document.body.innerText;
+
+            // Regular expression to find "City, ST" pattern
+            const regex = /\b([A-Za-z\s]+),\s([A-Z]{2})\b/; // Looks for "City, ST" format
+            
             const match = pageContent.match(regex);
-            return match ? { city: match[1], state: match[2] } : null;
+            
+            if (match) {
+                console.log("City and State found:", match[1], match[2]); // Log for debugging
+                return { city: match[1], state: match[2] };
+            } else {
+                console.warn("City and State not found in page content.");
+                return null;
+            }
         }
 
+        // Find city and state using the function
         const location = findCityAndState();
 
+        // Update the page if a match is found
         if (location) {
             const { city, state } = location;
-            document.getElementById('city-name').innerText = `${city}, ${state}`;
-            document.getElementById('city-display').innerText = city;
-            document.getElementById('state-display').innerText = state;
+
+            const cityNameElement = document.getElementById('city-name');
+            const cityDisplayElement = document.getElementById('city-display');
+            const stateDisplayElement = document.getElementById('state-display');
+
+            if (cityNameElement) cityNameElement.innerText = `${city}, ${state}`;
+            if (cityDisplayElement) cityDisplayElement.innerText = city;
+            if (stateDisplayElement) stateDisplayElement.innerText = state;
         } else {
-            console.error("City and state not found on the page.");
+            console.error("Could not dynamically update city and state display.");
         }
     });
 </script>
