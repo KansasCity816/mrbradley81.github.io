@@ -83,7 +83,7 @@
   <link rel="stylesheet" href="../../assets/css/main.css"> 
   <link rel="stylesheet" href="../../assets/css/responsive.css">
       
-<script>document.addEventListener("DOMContentLoaded", function () {const linkContainer = document.querySelector('.link h1.page a');if (linkContainer) {const locationText = linkContainer.textContent.trim();const [city, state] = locationText.split('/ '); const cityNameElements = document.querySelectorAll('.city-name');const cityDisplayElements = document.querySelectorAll('.city-display');const stateDisplayElements = document.querySelectorAll('.state-display');cityNameElements.forEach(el => el.textContent = `${city}, ${state}`);cityDisplayElements.forEach(el => el.textContent = city);stateDisplayElements.forEach(el => el.textContent = state);console.log(`City and State updated: ${city}, ${state}`);} else {console.error("City and State link not found in the .link section.");}});</script>
+<script>document.addEventListener("DOMContentLoaded", function () {const linkContainer = document.querySelector('.link h1.page a');if (linkContainer) {const locationText = linkContainer.textContent.trim();const [city, state] = locationText.split(', '); const cityNameElements = document.querySelectorAll('.city-name');const cityDisplayElements = document.querySelectorAll('.city-display');const stateDisplayElements = document.querySelectorAll('.state-display');cityNameElements.forEach(el => el.textContent = `${city}, ${state}`);cityDisplayElements.forEach(el => el.textContent = city);stateDisplayElements.forEach(el => el.textContent = state);console.log(`City and State updated: ${city}, ${state}`);} else {console.error("City and State link not found in the .link section.");}});</script>
 <style>
 .banner {
     padding-top: 0;
@@ -122,7 +122,7 @@ color: var(--white);
 
       <!-- == Contacts == -->
       <ul class="header-contacts">
-        <li><h2 class="city-name"><span class="city-display">City</span>/ <span class="state-display">State</span></h2></li>
+        <li><span class="city-name"><span class="city-display">City</span>, <span class="state-display">State</span></span></li>
         <li><i class="fas fa-phone"></i><span>+1-651-867-7846</span></li>
         <li><i class="fas fa-envelope"></i><span class="gmail">lockchampionslocksmith@gmail.com</span></li>
       </ul>
@@ -250,7 +250,7 @@ color: var(--white);
       <h2>Get a Quote</h2>
     </div> 
 
-    <div class="link"><a href="/index.html">Home</a><i class="fa-solid fa-angles-right"></i><h1 class="page" style="margin-bottom: 3px; font-size: 20px;"><a href="https://lockchampionslocksmith.com/pages/Pages/Get-Quote.html">Indiana/Minnesota</a></h1></div>
+    <div class="link"><a href="/index.html">Home</a><i class="fa-solid fa-angles-right"></i><i class="fa-solid fa-angles-right"></i><h1 class="page" style="margin-bottom: 3px; font-size: 20px;"><a href="https://lockchampionslocksmith.com/pages/Pages/Get-Quote.html">Saint Paul, Minnesota</a></h1></div>
 
   </div>
   <!-- ==================== Page-Title (End) ==================== -->
@@ -266,7 +266,7 @@ color: var(--white);
             <div class="heading">
               <div class="sub"><span>Lock Champions Locksmith</span><i class="fa-solid fa-lock"></i></div>
             </div>
-            <h2 class="city-name"><span class="city-display">City</span></h2>
+            <h2 class="city-name"><span class="city-display">City</span>, <span class="state-display">State</span></h2>
                 <p class="color">For all your locksmith needs, Lock Champions Locksmith is here to provide exceptional solutions. Whether it's installing new locks, unlocking stubborn ones, or repairing sophisticated electronic access systems for homes and businesses.</p>
           </div>
   
