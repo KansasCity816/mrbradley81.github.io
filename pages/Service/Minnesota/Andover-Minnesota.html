@@ -85,62 +85,47 @@
       
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Function to find city and state based on page content
+        // Step 1: Search the entire page for "City, State" pattern
         function findCityAndState() {
-            const pageContent = document.body.innerText; // Get all text from the page
-
-            // Match "City, State" format
-            const regex = /\b([A-Za-z\s]+),\s([A-Za-z\s]+)\b/;
+            const pageContent = document.body.innerText || ""; // Extract all visible text
+            const regex = /\b([A-Za-z\s]+),\s([A-Za-z\s]+)\b/; // Match "City, State" format
             const match = pageContent.match(regex);
 
             if (match) {
-                console.log("City and State found:", match[1], match[2]); // Debugging
                 return { city: match[1], state: match[2] };
             } else {
-                console.warn("City and State not found in page content.");
-                return null;
+                return null; // No match found
             }
         }
 
-        // Execute the function to find the city and state
-        const location = findCityAndState();
+        // Step 2: Dynamically update the DOM with "City, State"
+        function updateCityAndState() {
+            const location = findCityAndState();
 
-        if (location) {
-            const { city, state } = location;
+            if (location) {
+                const { city, state } = location;
 
-            // Locate the HTML elements
-            const cityNameElement = document.getElementById('city-name');
-            const cityDisplayElement = document.getElementById('city-display');
-            const stateDisplayElement = document.getElementById('state-display');
+                // Check if the elements exist in the DOM
+                const cityNameElement = document.querySelector('#city-name');
+                const cityDisplayElement = document.querySelector('#city-display');
+                const stateDisplayElement = document.querySelector('#state-display');
 
-            // Log element presence
-            console.log("Elements found:", {
-                cityNameElement,
-                cityDisplayElement,
-                stateDisplayElement
-            });
-
-            // Update the elements if they exist
-            if (cityNameElement) {
-                cityNameElement.textContent = `${city}, ${state}`;
+                if (cityNameElement) {
+                    cityNameElement.textContent = `${city}, ${state}`;
+                }
+                if (cityDisplayElement) {
+                    cityDisplayElement.textContent = city;
+                }
+                if (stateDisplayElement) {
+                    stateDisplayElement.textContent = state;
+                }
             } else {
-                console.error("Element with ID 'city-name' not found in the DOM.");
+                console.warn("No 'City, State' pattern found on the page.");
             }
-
-            if (cityDisplayElement) {
-                cityDisplayElement.textContent = city;
-            } else {
-                console.error("Element with ID 'city-display' not found in the DOM.");
-            }
-
-            if (stateDisplayElement) {
-                stateDisplayElement.textContent = state;
-            } else {
-                console.error("Element with ID 'state-display' not found in the DOM.");
-            }
-        } else {
-            console.error("Failed to find city and state in page content.");
         }
+
+        // Step 3: Run the function to update the page
+        updateCityAndState();
     });
 </script>
 <style>
