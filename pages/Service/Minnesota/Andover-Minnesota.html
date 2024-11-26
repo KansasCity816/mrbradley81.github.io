@@ -95,27 +95,17 @@
             // Split the text into city and state
             const [city, state] = locationText.split(', '); // Split by comma and space
 
-            // Locate and update all elements with specific classes for city and state
-            const cityNameElements = document.querySelectorAll('.city-name'); // All placeholders for "City, State"
-            const cityDisplayElements = document.querySelectorAll('.city-display'); // All placeholders for "City"
-            const stateDisplayElements = document.querySelectorAll('.state-display'); // All placeholders for "State"
+            // Locate elements to update
+            const cityNameElement = document.getElementById('city-name');
+            const cityDisplayElement = document.getElementById('city-display');
+            const stateDisplayElement = document.getElementById('state-display');
 
-            // Update all "City, State" placeholders
-            cityNameElements.forEach(element => {
-                element.textContent = `${city}, ${state}`;
-            });
+            // Update the elements if they exist
+            if (cityNameElement) cityNameElement.textContent = `${city}, ${state}`;
+            if (cityDisplayElement) cityDisplayElement.textContent = city;
+            if (stateDisplayElement) stateDisplayElement.textContent = state;
 
-            // Update all "City" placeholders
-            cityDisplayElements.forEach(element => {
-                element.textContent = city;
-            });
-
-            // Update all "State" placeholders
-            stateDisplayElements.forEach(element => {
-                element.textContent = state;
-            });
-
-            console.log(`City: ${city}, State: ${state} successfully updated in all areas!`);
+            console.log(`City: ${city}, State: ${state} successfully updated!`);
         } else {
             console.error("City and State link not found in the .link section.");
         }
@@ -159,7 +149,12 @@ color: var(--white);
 
       <!-- == Contacts == -->
       <ul class="header-contacts">
-      <li><i class="fas fa-map-marker-alt"></i><span id="city-name"><span id="city-display">City</span>, <span id="state-display">State</span></span></li>
+        <li>
+    <i class="fas fa-map-marker-alt"></i>
+    <span id="city-name">
+        <span id="city-display">City</span>, <span id="state-display">State</span>
+    </span>
+</li>
         <li><i class="fas fa-phone"></i><span>+1-651-867-7846</span></li>
         <li><i class="fas fa-envelope"></i><span class="gmail">lockchampionslocksmith@gmail.com</span></li>
       </ul>
@@ -457,7 +452,7 @@ color: var(--white);
         <div class="info connect">
           <p><i class="fas fa-phone"></i><span>+1-651-867-7846</span></p>
           <p><i class="fas fa-envelope"></i><span class="gmail">lockchampionslocksmith@gmail.com</span></p>
-          <p><li><i class="fas fa-map-marker-alt"></i><span id="city-name"><span id="city-display">City</span>, <span id="state-display">State</span></span></li></p>
+          <p><i class="fas fa-map-marker-alt"></i><span>Andover, Minnesota</span></p>
         </div>
 
   
