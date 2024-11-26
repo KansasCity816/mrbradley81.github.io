@@ -84,17 +84,27 @@
   <link rel="stylesheet" href="../../../assets/css/responsive.css">
       
 <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const cityName = urlParams.get('city');
-            const stateName = urlParams.get('state');
-            if (cityName && stateName) {
-                document.getElementById('city-name').innerText = `${cityName}, ${stateName}`;
-                document.getElementById('city-display').innerText = cityName;
-                document.getElementById('state-display').innerText = stateName;
-            }
-        });
-    </script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Function to extract city and state from the page content
+        function findCityAndState() {
+            const pageContent = document.body.innerText; // Get all text from the page
+            const regex = /([A-Za-z\s]+),\s([A-Za-z]{2})/; // Match "City, State" pattern
+            const match = pageContent.match(regex);
+            return match ? { city: match[1], state: match[2] } : null;
+        }
+
+        const location = findCityAndState();
+
+        if (location) {
+            const { city, state } = location;
+            document.getElementById('city-name').innerText = `${city}, ${state}`;
+            document.getElementById('city-display').innerText = city;
+            document.getElementById('state-display').innerText = state;
+        } else {
+            console.error("City and state not found on the page.");
+        }
+    });
+</script>
 <style>
 .banner {
     padding-top: 0;
