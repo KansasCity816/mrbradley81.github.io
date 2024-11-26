@@ -85,27 +85,27 @@
       
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        // Locate the container with the city and state link
+        // Locate the city and state link
         const linkContainer = document.querySelector('.link h1.page a');
 
         if (linkContainer) {
             // Extract the text from the link
             const locationText = linkContainer.textContent.trim(); // e.g., "Andover, Minnesota"
-            
-            // Split the text into city and state
-            const [city, state] = locationText.split(', '); // Split by comma and space
 
-            // Locate elements to update
-            const cityNameElement = document.getElementById('city-name');
-            const cityDisplayElement = document.getElementById('city-display');
-            const stateDisplayElement = document.getElementById('state-display');
+            // Split into city and state
+            const [city, state] = locationText.split(', '); // Split by ", "
 
-            // Update the elements if they exist
-            if (cityNameElement) cityNameElement.textContent = `${city}, ${state}`;
-            if (cityDisplayElement) cityDisplayElement.textContent = city;
-            if (stateDisplayElement) stateDisplayElement.textContent = state;
+            // Find all elements with the corresponding classes
+            const cityNameElements = document.querySelectorAll('.city-name');
+            const cityDisplayElements = document.querySelectorAll('.city-display');
+            const stateDisplayElements = document.querySelectorAll('.state-display');
 
-            console.log(`City: ${city}, State: ${state} successfully updated!`);
+            // Update all elements
+            cityNameElements.forEach(el => el.textContent = `${city}, ${state}`);
+            cityDisplayElements.forEach(el => el.textContent = city);
+            stateDisplayElements.forEach(el => el.textContent = state);
+
+            console.log(`City and State updated: ${city}, ${state}`);
         } else {
             console.error("City and State link not found in the .link section.");
         }
