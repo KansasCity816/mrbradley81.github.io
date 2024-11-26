@@ -94,7 +94,7 @@
             const match = pageContent.match(regex); // Search for the pattern
 
             if (match) {
-                console.log("City and State found:", match[1], match[2]); // Debugging
+                console.log("City and State found here:", match[1], match[2]); // Debugging
                 return { city: match[1], state: match[2] };
             } else {
                 console.warn("City and State not found in page content.");
