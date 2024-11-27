@@ -1,36 +1,49 @@
 const fs = require('fs');
 const path = require('path');
 
-const blogFolder = './pages/Blog'; // Folder containing Blog-Single files
-const outputFile = './pages/Blog/Blog-List.html'; // File to update
+// Define paths
+const blogFolder = path.join(__dirname, 'pages/Blog'); // Location of Blog-Single files
+const blogListFile = path.join(blogFolder, 'Blog-List.html'); // Path to Blog-List.html
 
 const generateBlogList = () => {
-  const blogFiles = fs.readdirSync(blogFolder).filter(file => file.endsWith('.html'));
+  // Get all blog files in the Blog folder
+  const blogFiles = fs.readdirSync(blogFolder).filter(file => file.startsWith('Blog-Single') && file.endsWith('.html'));
 
-  let blogListHtml = `
-  <!DOCTYPE html>
-  <html>
-  <head>
-    <title>Blog List</title>
-  </head>
-  <body>
-    <h1>Our Blog</h1>
-    <ul>
-  `;
+  // Generate the blog items
+  let blogItems = '';
+  blogFiles.forEach((file, index) => {
+    const blogTitle = file.replace('Blog-Single', 'Blog Post ').replace('.html', ''); // Derive title
+    const blogDate = new Date().toISOString().split('T')[0]; // Example: Current date
+    const blogUrl = `https://lockchampionslocksmith.com/pages/Blog/${file}`;
 
-  blogFiles.forEach(file => {
-    const title = file.replace(/-/g, ' ').replace('.html', ''); // Use file name as title
-    blogListHtml += `<li><a href="./pages/Blog/${file}">${title}</a></li>`;
+    blogItems += `
+      <div class="blog-item">
+        <div class="image">
+          <img src="../../assets/images/Blog/Blogs/Blog-${index + 1}.jpg" alt="Blog Image"> <!-- Blog Image -->
+          <div class="date"><span>${blogDate.split('-')[2]}</span> ${blogDate.split('-')[1]}</div> <!-- Blog Date -->
+        </div>
+        <div class="content">
+          <a class="main-heading" href="${blogUrl}">${blogTitle}</a> <!-- Blog Title -->
+          <div class="details">
+            <h3><i class="fa-solid fa-circle-user"></i><span>By Admin</span></h3> <!-- Blog Author -->
+            <h3><i class="fa-solid fa-tags"></i><span>Category</span></h3> <!-- Placeholder Category -->
+          </div>
+        </div>
+      </div>
+    `;
   });
 
-  blogListHtml += `
-    </ul>
-  </body>
-  </html>
-  `;
+  // Read Blog-List.html and replace the blog-container content
+  const blogListHtml = fs.readFileSync(blogListFile, 'utf8');
+  const updatedHtml = blogListHtml.replace(
+    /<div class="blog-container list">([\s\S]*?)<\/div>/,
+    `<div class="blog-container list">${blogItems}</div>`
+  );
 
-  fs.writeFileSync(outputFile, blogListHtml);
+  // Write the updated HTML back to the Blog-List.html file
+  fs.writeFileSync(blogListFile, updatedHtml);
   console.log('Blog-List.html updated successfully!');
 };
 
+// Run the script
 generateBlogList();
