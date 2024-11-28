@@ -30,5 +30,13 @@
     "url": "https://lockchampionslocksmith.com/pages/Blog/Test-Blog.html",
     "category": "testing",
     "author": "Admin"
+  },
+  {
+    "image": "https://lockchampionslocksmith.com/assets/images/Blog/Blogs/Blog-2.jpg",
+    "date": "Nov 28",
+    "title": "ANother test Blog",
+    "url": "https://lockchampionslocksmith.com/pages/Blog/Test-Blog.html",
+    "category": "testing this",
+    "author": "Admin"
   }
 ]
