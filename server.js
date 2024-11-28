@@ -6,21 +6,21 @@ const PORT = 3000;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static('.')); // Serve static files from root directory
+app.use(express.static('.')); // Serve static files from the root directory
 
-// Path to files
+// Paths
 const blogsFile = path.join(__dirname, 'blogs.json');
 const blogListFile = path.join(__dirname, 'blog-list.html');
 
 app.post('/add-blog', (req, res) => {
   const { image, date, title, url, category, author } = req.body;
 
-  // Read and update blogs.json
+  // 1. Update blogs.json
   const blogs = JSON.parse(fs.readFileSync(blogsFile, 'utf-8'));
   blogs.push({ image, date, title, url, category, author });
   fs.writeFileSync(blogsFile, JSON.stringify(blogs, null, 2));
 
-  // Inject new blog into blog-list.html
+  // 2. Create the HTML snippet for the new blog
   const blogHtml = `
     <div class="blog-item">
       <div class="image">
@@ -37,18 +37,26 @@ app.post('/add-blog', (req, res) => {
     </div>
   `;
 
-  // Read the blog-list.html file
+  // 3. Read blog-list.html and locate the injection point
   let blogListHtml = fs.readFileSync(blogListFile, 'utf-8');
 
-  // Inject the new blog before the end marker
+  // Find the position of the end marker
   const marker = '<!-- ===== Blogs (End) ===== -->';
-  const insertPosition = blogListHtml.indexOf(marker);
-  blogListHtml =
-    blogListHtml.slice(0, insertPosition) +
-    blogHtml +
-    blogListHtml.slice(insertPosition);
+  const markerIndex = blogListHtml.indexOf(marker);
 
-  // Write the updated content back to blog-list.html
+  if (markerIndex === -1) {
+    res.status(500).send('Error: Blog list template is missing the end marker.');
+    return;
+  }
+
+  // Insert the new blog HTML before the end marker
+  blogListHtml =
+    blogListHtml.slice(0, markerIndex) +
+    blogHtml +
+    '\n' +
+    blogListHtml.slice(markerIndex);
+
+  // 4. Write the updated HTML back to blog-list.html
   fs.writeFileSync(blogListFile, blogListHtml);
 
   res.status(200).send('Blog added successfully!');
