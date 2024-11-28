@@ -14,5 +14,13 @@
     "url": "../../pages/Blog/Blog-Single-6.html",
     "category": "Locksmith Services",
     "author": "Admin"
+  },
+  {
+    "image": "https://lockchampionslocksmith.com/assets/images/Blog/Blogs/Blog-2.jpg",
+    "date": "Nov 27",
+    "title": "test",
+    "url": "https://lockchampionslocksmith.com/pages/Blog/Test-Blog.html",
+    "category": "testing",
+    "author": "admin"
   }
 ]
