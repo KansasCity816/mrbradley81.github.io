@@ -1,141 +1,81 @@
 const fs = require('fs');
-const path = require('path');
 const express = require('express');
+const path = require('path');
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(express.static(__dirname));
+app.use(express.static('.')); // Serve static files
+app.use(express.json()); // Parse JSON requests
+app.use(express.urlencoded({ extended: true })); // Parse form data
 
-// Existing endpoint for adding a blog to blogs.json and blog-list.html
+// Path to store blog files
+const BLOG_DIRECTORY = path.join(__dirname, 'pages', 'Blog');
+
+// Route to handle adding a blog post
 app.post('/add-blog', (req, res) => {
-  const { title, date, author, category, image, content } = req.body;
+    const { image, date, title, url, category, author, content } = req.body;
 
-  // Load existing blogs
-  const blogsPath = path.join(__dirname, 'blogs.json');
-  const blogListPath = path.join(__dirname, 'blog-list.html');
+    // Add the new blog entry to blogs.json
+    const blogsFilePath = path.join(__dirname, 'blogs.json');
+    const blogsData = JSON.parse(fs.readFileSync(blogsFilePath, 'utf-8'));
+    const newBlogEntry = { image, date, title, url, category, author };
+    blogsData.unshift(newBlogEntry); // Add to the top
+    fs.writeFileSync(blogsFilePath, JSON.stringify(blogsData, null, 2), 'utf-8');
 
-  fs.readFile(blogsPath, 'utf8', (err, data) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send('Error reading blogs.json');
-    }
-
-    const blogs = JSON.parse(data);
-
-    // Add the new blog to blogs.json
-    const newBlog = { title, date, author, category, image, content };
-    blogs.unshift(newBlog); // Add to the beginning of the array
-
-    // Save updated blogs.json
-    fs.writeFile(blogsPath, JSON.stringify(blogs, null, 2), (err) => {
-      if (err) {
-        console.error(err);
-        return res.status(500).send('Error writing to blogs.json');
-      }
-
-      // Update blog-list.html
-      fs.readFile(blogListPath, 'utf8', (err, htmlData) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).send('Error reading blog-list.html');
-        }
-
-        // Find the insertion point
-        const insertionPoint = htmlData.indexOf('<!-- ===== Blogs (Start) ===== -->') + '<!-- ===== Blogs (Start) ===== -->'.length;
-
-        // Build new blog HTML
-        const newBlogHTML = `
-        <!-- Blog -->
-        <div class="blog-item">
-          <div class="image">
-            <img src="${image}" alt="${title}">
-            <div class="date">${date}</div>
-          </div>
-          <div class="content">
-            <a class="main-heading" href="#">${title}</a>
-            <div class="details">
-              <h3><i class="fa-solid fa-circle-user"></i><span>By ${author}</span></h3>
-              <h3><i class="fa-solid fa-tags"></i><span>${category}</span></h3>
-            </div>
-          </div>
-        </div>`;
-
-        // Insert new blog HTML into blog-list.html
-        const updatedHTML = htmlData.slice(0, insertionPoint) + newBlogHTML + htmlData.slice(insertionPoint);
-
-        fs.writeFile(blogListPath, updatedHTML, (err) => {
-          if (err) {
-            console.error(err);
-            return res.status(500).send('Error updating blog-list.html');
-          }
-
-          res.send('Blog added successfully!');
-        });
-      });
-    });
-  });
-});
-
-// New endpoint to create a blog post file
-app.post('/create-blog-post', (req, res) => {
-  const { title, date, author, category, image, content } = req.body;
-
-  // Construct the file name
-  const fileName = title.toLowerCase().replace(/ /g, '-') + '.html';
-  const filePath = path.join(__dirname, 'pages', 'Blog', fileName);
-
-  // Template for the blog post
-  const blogTemplate = `
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>${title}</title>
-  <link rel="stylesheet" href="../../assets/css/main.css">
-  <link rel="stylesheet" href="../../assets/css/responsive.css">
-</head>
-<body>
-  <header class="header">
-    <!-- Add your header here -->
-  </header>
-  <section class="blog-single">
-    <div class="blog-container">
-      <div class="blog-info">
+    // Update blog-list.html
+    const blogListPath = path.join(__dirname, 'blog-list.html');
+    const blogListHTML = fs.readFileSync(blogListPath, 'utf-8');
+    const insertionPoint = '<!-- ===== Blogs (Start) ===== -->';
+    const newBlogHTML = `
+      <!-- Blog -->
+      <div class="blog-item">
         <div class="image">
-          <img src="${image}" alt="${title}">
-          <div class="date">${date}</div>
+          <img src="${image}" alt="Blog-Image"> <!-- Blog Image -->
+          <div class="date"><span>${date.split(' ')[0]}</span> ${date.split(' ')[1]}</div> <!-- Blog Date -->
         </div>
         <div class="content">
-          <h1>${title}</h1>
-          <h3>By ${author}</h3>
-          <h4>Category: ${category}</h4>
-          <p>${content}</p>
+          <a class="main-heading" href="${url}">${title}</a> <!-- Blog Title -->
+          <div class="details">
+            <h3><i class="fa-solid fa-circle-user"></i><span>By ${author}</span></h3> <!-- Blog Author -->
+            <h3><i class="fa-solid fa-tags"></i><span>${category}</span></h3> <!-- Blog Category -->
+          </div>
         </div>
       </div>
-    </div>
-  </section>
-  <footer class="footer">
-    <!-- Add your footer here -->
-  </footer>
-</body>
-</html>
-  `;
+    `;
+    const updatedBlogListHTML = blogListHTML.replace(insertionPoint, `${insertionPoint}\n${newBlogHTML}`);
+    fs.writeFileSync(blogListPath, updatedBlogListHTML, 'utf-8');
 
-  // Write the file
-  fs.writeFile(filePath, blogTemplate, (err) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send('Error creating blog post');
-    }
-    res.send('Blog post created successfully!');
-  });
+    // Create a new blog post HTML file
+    const newBlogPath = path.join(BLOG_DIRECTORY, `${title.replace(/\s+/g, '-')}.html`);
+    const blogTemplate = `
+      <!DOCTYPE html>
+      <html lang="en">
+      <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>${title}</title>
+        <link rel="stylesheet" href="../../assets/css/main.css">
+        <link rel="stylesheet" href="../../assets/css/responsive.css">
+      </head>
+      <body>
+        <div class="blog-post">
+          <h1>${title}</h1>
+          <p><strong>Author:</strong> ${author}</p>
+          <p><strong>Date:</strong> ${date}</p>
+          <p><strong>Category:</strong> ${category}</p>
+          <img src="${image}" alt="${title}">
+          <div class="content">
+            ${content}
+          </div>
+        </div>
+      </body>
+      </html>
+    `;
+    fs.writeFileSync(newBlogPath, blogTemplate, 'utf-8');
+
+    res.status(201).json({ message: 'Blog post added successfully!' });
 });
 
 // Start the server
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server running at http://localhost:${PORT}`);
+app.listen(3000, () => {
+    console.log('Server is running on http://localhost:3000');
 });
