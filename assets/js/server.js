@@ -1,30 +1,45 @@
-const express = require("express");
-const fs = require("fs");
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+
 const app = express();
+const port = 3000;
 
-app.use(express.json()); // For parsing JSON requests
+// Middleware to parse JSON data
+app.use(express.json());
 
-const path = "./blogs.json"; // Path to the JSON file
+// Route to serve the add-blog.html form
+app.get('/add-blog', (req, res) => {
+  res.sendFile(path.join(__dirname, 'add-blog.html'));
+});
 
-// Endpoint to add a new blog
-app.post("/add-blog", (req, res) => {
-  const newBlog = req.body; // Get the new blog from the request body
+// Route to handle adding a new blog
+app.post('/add-blog', (req, res) => {
+  const newBlog = req.body;
 
-  // Read the existing blogs
-  fs.readFile(path, "utf8", (err, data) => {
-    if (err) return res.status(500).send("Error reading the file.");
+  fs.readFile('./blogs.json', 'utf8', (err, data) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send('Error reading file.');
+      return;
+    }
 
-    const blogs = JSON.parse(data); // Parse the JSON
-    blogs.push(newBlog); // Add the new blog
+    const blogs = JSON.parse(data);
+    blogs.push(newBlog);
 
-    // Write the updated JSON back to the file
-    fs.writeFile(path, JSON.stringify(blogs, null, 2), "utf8", (err) => {
-      if (err) return res.status(500).send("Error writing to the file.");
-      res.status(200).send("Blog added successfully!");
+    fs.writeFile('./blogs.json', JSON.stringify(blogs, null, 2), (err) => {
+      if (err) {
+        console.error(err);
+        res.status(500).send('Error saving file.');
+        return;
+      }
+
+      res.status(200).send('Blog added successfully.');
     });
   });
 });
 
 // Start the server
-const PORT = 3000;
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+app.listen(port, () => {
+  console.log(`Server running at http://localhost:${port}`);
+});
