@@ -8,6 +8,9 @@ const port = 3000;
 // Middleware to parse JSON data
 app.use(express.json());
 
+// Serve static files (e.g., blogs.json)
+app.use(express.static(path.join(__dirname)));
+
 // Route to serve the add-blog.html form
 app.get('/add-blog', (req, res) => {
   res.sendFile(path.join(__dirname, 'add-blog.html'));

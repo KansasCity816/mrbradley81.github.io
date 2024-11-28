@@ -354,7 +354,7 @@
     <!-- ========== Blog Sidebar Area (End) ========== -->
 
     <!-- ========== Blog Container (Start) ========== -->
-    <div class="blog-container list">
+    <div class="blog-container list" id="blog-container">
 
       <!-- ===== Blogs (Start) ===== -->
 
@@ -544,7 +544,33 @@
   <!-- ==================== Footer Area (End) ==================== -->
 
 <!-- Include Fetch Script -->
-<script src="../../assets/js/fetchBlogs.js"></script>
+<script>
+    // Fetch blogs.json and populate the blog list
+    fetch('/blogs.json')
+      .then(response => response.json())
+      .then(blogs => {
+        const blogContainer = document.getElementById('blog-container');
+        blogs.forEach((blog, index) => {
+          const blogHTML = `
+            <div class="blog-item">
+              <div class="image">
+                <img src="${blog.image}" alt="Blog-Image">
+                <div class="date"><span>${blog.date.split(' ')[0]}</span> ${blog.date.split(' ')[1]}</div>
+              </div>
+              <div class="content">
+                <a class="main-heading" href="${blog.url}">${blog.title}</a>
+                <div class="details">
+                  <h3><i class="fa-solid fa-circle-user"></i><span>${blog.author}</span></h3>
+                  <h3><i class="fa-solid fa-tags"></i><span>${blog.category}</span></h3>
+                </div>
+              </div>
+            </div>
+          `;
+          blogContainer.innerHTML += blogHTML;
+        });
+      })
+      .catch(error => console.error('Error loading blogs:', error));
+  </script>
 
 
   <!-- Jquery -->
