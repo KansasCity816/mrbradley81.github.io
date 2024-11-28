@@ -1,105 +1,59 @@
-const express = require("express");
-const fs = require("fs");
-const path = require("path");
-
+const fs = require('fs');
+const path = require('path');
+const express = require('express');
 const app = express();
 const PORT = 3000;
 
-// Middleware to parse JSON and URL-encoded data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static('.')); // Serve static files from root directory
 
-// Serve static files from root directory
-app.use(express.static(path.join(__dirname)));
+// Path to files
+const blogsFile = path.join(__dirname, 'blogs.json');
+const blogListFile = path.join(__dirname, 'blog-list.html');
 
-// Route to handle adding new blogs
-app.post("/add-blog", (req, res) => {
-  const newBlog = req.body;
+app.post('/add-blog', (req, res) => {
+  const { image, date, title, url, category, author } = req.body;
 
-  // Read the current blogs.json file
-  fs.readFile(path.join(__dirname, "blogs.json"), "utf8", (err, data) => {
-    if (err) {
-      console.error("Error reading blogs.json:", err);
-      res.status(500).send("Server Error");
-      return;
-    }
+  // Read and update blogs.json
+  const blogs = JSON.parse(fs.readFileSync(blogsFile, 'utf-8'));
+  blogs.push({ image, date, title, url, category, author });
+  fs.writeFileSync(blogsFile, JSON.stringify(blogs, null, 2));
 
-    // Parse the JSON file and add the new blog
-    const blogs = JSON.parse(data);
-    blogs.push(newBlog);
-
-    // Write updated blogs back to blogs.json
-    fs.writeFile(
-      path.join(__dirname, "blogs.json"),
-      JSON.stringify(blogs, null, 2),
-      (err) => {
-        if (err) {
-          console.error("Error writing to blogs.json:", err);
-          res.status(500).send("Server Error");
-          return;
-        }
-
-        // Update blog-list.html
-        updateBlogListHTML(blogs);
-
-        res.redirect("/blog-list.html");
-      }
-    );
-  });
-});
-
-// Function to update blog-list.html
-function updateBlogListHTML(blogs) {
-  const blogHTML = blogs
-    .map((blog, index) => {
-      return `
-        <!-- Blog-${index + 1} -->
-        <div class="blog-item">
-          <div class="image">
-            <img src="${blog.image}" alt="Blog-Image">
-            <div class="date"><span>${blog.date.split(" ")[0]}</span> ${
-        blog.date.split(" ")[1]
-      }</div>
-          </div>
-          <div class="content">
-            <a class="main-heading" href="${blog.url}">${blog.title}</a>
-            <div class="details">
-              <h3><i class="fa-solid fa-circle-user"></i><span>By ${
-                blog.author
-              }</span></h3>
-              <h3><i class="fa-solid fa-tags"></i><span>${blog.category}</span></h3>
-            </div>
-          </div>
-        </div>`;
-    })
-    .join("");
-
-  const blogListHTML = `
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Blog List</title>
-      <link rel="stylesheet" href="assets/css/main.css">
-      <link rel="stylesheet" href="assets/css/responsive.css">
-    </head>
-    <body>
-      <div class="blog-container list">
-        ${blogHTML}
+  // Inject new blog into blog-list.html
+  const blogHtml = `
+    <div class="blog-item">
+      <div class="image">
+        <img src="${image}" alt="Blog-Image">
+        <div class="date"><span>${date.split(' ')[0]}</span> ${date.split(' ')[1]}</div>
       </div>
-    </body>
-    </html>
+      <div class="content">
+        <a class="main-heading" href="${url}">${title}</a>
+        <div class="details">
+          <h3><i class="fa-solid fa-circle-user"></i><span>By ${author}</span></h3>
+          <h3><i class="fa-solid fa-tags"></i><span>${category}</span></h3>
+        </div>
+      </div>
+    </div>
   `;
 
-  fs.writeFile(path.join(__dirname, "blog-list.html"), blogListHTML, (err) => {
-    if (err) {
-      console.error("Error updating blog-list.html:", err);
-    }
-  });
-}
+  // Read the blog-list.html file
+  let blogListHtml = fs.readFileSync(blogListFile, 'utf-8');
 
-// Start the server
+  // Inject the new blog before the end marker
+  const marker = '<!-- ===== Blogs (End) ===== -->';
+  const insertPosition = blogListHtml.indexOf(marker);
+  blogListHtml =
+    blogListHtml.slice(0, insertPosition) +
+    blogHtml +
+    blogListHtml.slice(insertPosition);
+
+  // Write the updated content back to blog-list.html
+  fs.writeFileSync(blogListFile, blogListHtml);
+
+  res.status(200).send('Blog added successfully!');
+});
+
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
