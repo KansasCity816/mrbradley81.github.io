@@ -241,13 +241,13 @@
   <div class="page-title">
 
     <div class="title">
-      <h2>Blog Single</h2>
+      <h2>{{title}}</h2>
     </div> 
 
     <div class="link">
       <a href="index.html">Home</a>
       <i class="fa-solid fa-angles-right"></i>
-      <span class="page">Blog Single</span>
+      <span class="page">{{title}}</span>
     </div>
 
   </div>
@@ -265,8 +265,8 @@
       <div class="blog-info page-info">
 
         <div class="image">
-          <img src="assets/images/Blog/Blogs/Blog-2.jpg" alt="Mastering Key Duplication Techniques"> <!-- Key Duplication Image -->
-          <div class="date"><span>04</span> Feb</div> <!-- Blog Date -->
+          <img src="assets/images/Blog/Blogs/Blog-2.jpg" alt="{{title}}"> <!-- Key Duplication Image -->
+          <div class="date"><span>{{date}}</span></div> <!-- Blog Date -->
         </div>
       
         <div class="content">
@@ -276,8 +276,8 @@
       
           <!-- Blog Details -->
           <div class="details">
-            <h5><i class="fa-solid fa-circle-user"></i><span>By Admin</span></h5> <!-- Author -->
-            <h5><i class="fa-solid fa-tags"></i><span>Key Cutting</span></h5> <!-- Category -->
+            <h5><i class="fa-solid fa-circle-user"></i><span>{{author}}</span></h5> <!-- Author -->
+            <h5><i class="fa-solid fa-tags"></i><span>{{category}}</span></h5> <!-- Category -->
           </div>
       
           <!-- Blog Description -->
@@ -288,26 +288,22 @@
           <!-- Blog Gallery -->
           <div class="blog-gallery page-gallery">
       
-            <a href="assets/images/Blog/Blog-Gallery/1.jpg">
-              <img src="assets/images/Blog/Blog-Gallery/1.jpg" alt="Key-Duplication-Gallery-Image">
+            <a href="{{image}}">
+              <img src="{{image}}" alt="{{title}}">
             </a>
-            <a href="assets/images/Blog/Blog-Gallery/2.jpg">
-              <img src="assets/images/Blog/Blog-Gallery/2.jpg" alt="Key-Duplication-Gallery-Image">
-            </a>
+            
       
           </div>
       
-          <!-- Blog Description -->
-          <p>Visualize the key duplication process and explore advanced techniques through our gallery. Gain insights into precision cutting, key profiling, and key blank selection to refine your skills and deliver exceptional results to your clients.</p>
       
           <!-- End Details -->
           <div class="end-details">
       
             <!-- Blog Tags -->
             <div class="tags">
-              <a href="#"><span>Keys</span></a>
-              <a href="#"><span>Security</span></a>
-              <a href="#"><span>Safety</span></a>
+              <a href="#"><span>{{tag 1}}</span></a>
+              <a href="#"><span>{{tag 2}}</span></a>
+              <a href="#"><span>{{tag 3}}</span></a>
             </div>
       
             <!-- Social Media Share Buttons -->
