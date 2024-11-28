@@ -3,100 +3,44 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Add Blog Entry</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      margin: 2rem;
-    }
-    form {
-      max-width: 400px;
-    }
-    label {
-      display: block;
-      margin-bottom: 0.5rem;
-    }
-    input, textarea, button {
-      width: 100%;
-      padding: 0.5rem;
-      margin-bottom: 1rem;
-    }
-    button {
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-    button:hover {
-      background-color: #0056b3;
-    }
-    .message {
-      color: green;
-      margin-top: 1rem;
-    }
-  </style>
+  <title>Add New Blog</title>
+  <link rel="stylesheet" href="assets/css/main.css"> <!-- Adjust CSS path -->
 </head>
 <body>
-  <h1>Add a New Blog Entry</h1>
-  <form id="blogForm">
-    <label for="image">Image URL:</label>
-    <input type="text" id="image" name="image" required>
-
-    <label for="date">Date:</label>
-    <input type="text" id="date" name="date" placeholder="e.g., 26 Nov" required>
-
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title" required>
-
-    <label for="url">Blog URL:</label>
-    <input type="text" id="url" name="url" required>
-
-    <label for="category">Category:</label>
-    <input type="text" id="category" name="category" required>
-
-    <label for="author">Author:</label>
-    <input type="text" id="author" name="author" required>
-
-    <button type="submit">Add Blog</button>
-    <p id="message" class="message"></p>
-  </form>
-
-  <script>
-    const form = document.getElementById('blogForm');
-    const message = document.getElementById('message');
-
-    form.addEventListener('submit', async (event) => {
-      event.preventDefault();
-
-      const formData = {
-        image: form.image.value,
-        date: form.date.value,
-        title: form.title.value,
-        url: form.url.value,
-        category: form.category.value,
-        author: form.author.value,
-      };
-
-      try {
-        const response = await fetch('http://localhost:3000/add-blog', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
-        });
-
-        if (response.ok) {
-          message.textContent = 'Blog entry added successfully!';
-          form.reset();
-        } else {
-          message.textContent = 'Failed to add blog entry. Please try again.';
-        }
-      } catch (error) {
-        console.error(error);
-        message.textContent = 'Error occurred while adding blog entry.';
-      }
-    });
-  </script>
+  <header>
+    <h1>Add New Blog Entry</h1>
+  </header>
+  <main>
+    <form action="/add-blog" method="POST">
+      <div class="form-group">
+        <label for="image">Blog Image URL:</label>
+        <input type="text" id="image" name="image" placeholder="Enter the image URL" required>
+      </div>
+      <div class="form-group">
+        <label for="date">Blog Date (e.g., 26 Nov):</label>
+        <input type="text" id="date" name="date" placeholder="Enter the blog date" required>
+      </div>
+      <div class="form-group">
+        <label for="title">Blog Title:</label>
+        <input type="text" id="title" name="title" placeholder="Enter the blog title" required>
+      </div>
+      <div class="form-group">
+        <label for="url">Blog URL (relative path):</label>
+        <input type="text" id="url" name="url" placeholder="Enter the blog URL" required>
+      </div>
+      <div class="form-group">
+        <label for="category">Blog Category:</label>
+        <input type="text" id="category" name="category" placeholder="Enter the blog category" required>
+      </div>
+      <div class="form-group">
+        <label for="author">Author:</label>
+        <input type="text" id="author" name="author" placeholder="Enter the author's name" value="Admin" required>
+      </div>
+      <button type="submit">Add Blog</button>
+    </form>
+  </main>
+  <footer>
+    <p>LockWise | Locksmith & Security System</p>
+  </footer>
 </body>
 </html>
