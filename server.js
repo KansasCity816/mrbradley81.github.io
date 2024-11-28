@@ -14,11 +14,16 @@ const BLOG_DIRECTORY = path.join(__dirname, 'pages', 'Blog');
 app.post('/add-blog', (req, res) => {
     const { image, date, title, url, category, author, content } = req.body;
 
-    // Add the new blog entry to blogs.json
     const blogsFilePath = path.join(__dirname, 'blogs.json');
     const blogsData = JSON.parse(fs.readFileSync(blogsFilePath, 'utf-8'));
-    const newBlogEntry = { image, date, title, url, category, author };
-    blogsData.unshift(newBlogEntry); // Add to the top
+
+    // Generate blog file name if `url` is not provided
+    const sanitizedTitle = title.replace(/\s+/g, '-').toLowerCase(); // Sanitize title
+    const blogFilename = url || `/pages/Blog/${sanitizedTitle}.html`;
+
+    // Add the new blog entry to blogs.json
+    const newBlogEntry = { image, date, title, url: blogFilename, category, author };
+    blogsData.unshift(newBlogEntry);
     fs.writeFileSync(blogsFilePath, JSON.stringify(blogsData, null, 2), 'utf-8');
 
     // Update blog-list.html
@@ -33,7 +38,7 @@ app.post('/add-blog', (req, res) => {
           <div class="date"><span>${date.split(' ')[0]}</span> ${date.split(' ')[1]}</div> <!-- Blog Date -->
         </div>
         <div class="content">
-          <a class="main-heading" href="${url}">${title}</a> <!-- Blog Title -->
+          <a class="main-heading" href="${blogFilename}">${title}</a> <!-- Blog Title -->
           <div class="details">
             <h3><i class="fa-solid fa-circle-user"></i><span>By ${author}</span></h3> <!-- Blog Author -->
             <h3><i class="fa-solid fa-tags"></i><span>${category}</span></h3> <!-- Blog Category -->
@@ -45,7 +50,7 @@ app.post('/add-blog', (req, res) => {
     fs.writeFileSync(blogListPath, updatedBlogListHTML, 'utf-8');
 
     // Create a new blog post HTML file
-    const newBlogPath = path.join(BLOG_DIRECTORY, `${title.replace(/\s+/g, '-')}.html`);
+    const blogFilePath = path.join(__dirname, blogFilename);
     const blogTemplate = `
       <!DOCTYPE html>
       <html lang="en">
@@ -70,10 +75,11 @@ app.post('/add-blog', (req, res) => {
       </body>
       </html>
     `;
-    fs.writeFileSync(newBlogPath, blogTemplate, 'utf-8');
+    fs.writeFileSync(blogFilePath, blogTemplate, 'utf-8');
 
-    res.status(201).json({ message: 'Blog post added successfully!' });
+    res.status(201).json({ message: 'Blog post added successfully!', url: blogFilename });
 });
+
 
 // Start the server
 app.listen(3000, () => {
