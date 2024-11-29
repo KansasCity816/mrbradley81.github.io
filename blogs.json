@@ -1,6 +1,14 @@
 [
   {
     "image": "https://lockchampionslocksmith.com/assets/images/Blog/Blogs/Blog-3.jpg",
+    "date": "2024-11-29",
+    "title": "Test HTML",
+    "url": "/pages/Blog/test-html.html",
+    "category": "QA",
+    "author": "admin"
+  },
+  {
+    "image": "https://lockchampionslocksmith.com/assets/images/Blog/Blogs/Blog-3.jpg",
     "date": "2024-11-28",
     "title": "7 Reasons to Hire a Professional Locksmith for Your Security Needs",
     "url": "/pages/Blog/7-reasons-to-hire-a-professional-locksmith-for-your-security-needs.html",
