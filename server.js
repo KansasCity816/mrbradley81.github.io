@@ -1,16 +1,10 @@
-const fs = require('fs');
-const path = require('path');
-const express = require('express');
-
-const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 app.post('/add-blog', (req, res) => {
+    console.log('Incoming request:', req.body); // Log incoming data
+
     const { image, date, title, category, author, content } = req.body;
 
-    // Validate input
     if (!image || !date || !title || !category || !author || !content) {
+        console.error('Validation failed:', req.body);
         return res.status(400).json({ error: 'All fields are required' });
     }
 
@@ -22,12 +16,12 @@ app.post('/add-blog', (req, res) => {
     const blogFilePath = path.join(__dirname, blogFilename);
 
     try {
-        // Step 1: Update blogs.json
+        console.log('Updating blogs.json...');
         const blogsData = JSON.parse(fs.readFileSync(blogsFilePath, 'utf-8'));
         blogsData.unshift({ image, date, title, url: blogFilename, category, author });
         fs.writeFileSync(blogsFilePath, JSON.stringify(blogsData, null, 2), 'utf-8');
 
-        // Step 2: Update blog-list.html
+        console.log('Updating blog-list.html...');
         const blogListHTML = fs.readFileSync(blogListPath, 'utf-8');
         const insertionPoint = '<!-- ===== Blogs (Start) ===== -->';
         const newBlogHTML = `
@@ -48,7 +42,7 @@ app.post('/add-blog', (req, res) => {
         const updatedBlogListHTML = blogListHTML.replace(insertionPoint, `${insertionPoint}\n${newBlogHTML}`);
         fs.writeFileSync(blogListPath, updatedBlogListHTML, 'utf-8');
 
-        // Step 3: Create new blog post
+        console.log('Creating new blog post...');
         const blogTemplate = fs.readFileSync(blogTemplatePath, 'utf-8');
         const blogContent = blogTemplate
             .replace(/{{title}}/g, title)
@@ -59,15 +53,10 @@ app.post('/add-blog', (req, res) => {
             .replace(/{{content}}/g, content);
         fs.writeFileSync(blogFilePath, blogContent, 'utf-8');
 
+        console.log('Blog added successfully!');
         res.status(201).json({ message: 'Blog added successfully!', url: blogFilename });
     } catch (error) {
         console.error('Error adding blog:', error);
         res.status(500).json({ error: 'Failed to add blog' });
     }
-});
-
-// Start the server
-const PORT = 3000;
-app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
 });
