@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.post('/add-blog', (req, res) => {
-    const { image, date, title, url, category, author, content, tag } = req.body;
+    const { image, date, title, url, category, author, content } = req.body;
 
     // File paths
     const blogsFilePath = path.join(__dirname, 'blogs.json');
@@ -55,7 +55,7 @@ app.post('/add-blog', (req, res) => {
         .replace(/{{date}}/g, date)
         .replace(/{{author}}/g, author)
         .replace(/{{category}}/g, category)
-		.replace(/{{tag}}/g, tag);
+        .replace(/{{content}}/g, content);
 
     fs.writeFileSync(blogFilePath, blogContent, 'utf-8');
 
