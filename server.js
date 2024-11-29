@@ -3,10 +3,12 @@ const path = require('path');
 const express = require('express');
 
 const app = express();
+
+// Serve static files from the "public" directory
+app.use(express.static(path.join(__dirname, 'public')));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 app.post('/add-blog', (req, res) => {
     const { image, date, title, category, author, content } = req.body;
