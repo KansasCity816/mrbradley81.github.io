@@ -7,7 +7,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.post('/add-blog', (req, res) => {
-    const { image, date, title, url, category, author, content } = req.body;
+    const { image, date, title, url, category, author, content, tag 1, tag 2,tag 3 } = req.body;
 
     // File paths
     const blogsFilePath = path.join(__dirname, 'blogs.json');
