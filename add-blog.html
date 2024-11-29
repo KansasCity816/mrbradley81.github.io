@@ -52,6 +52,9 @@
 
     <label for="category">Category:</label>
     <input type="text" id="category" name="category" required><br><br>
+	
+	<label for="tag">Tag:</label>
+    <input type="text" id="tag" name="tag" required><br><br>
 
     <label for="image">Image URL:</label>
     <input type="text" id="image" name="image" required><br><br>
@@ -73,6 +76,7 @@
         category: document.getElementById('category').value,
         image: document.getElementById('image').value,
         content: document.getElementById('content').value,
+		tag: document.getElementById('tag').value,
       };
 
       // Add the blog to the list and create the blog post file
