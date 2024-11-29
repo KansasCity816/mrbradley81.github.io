@@ -1,5 +1,14 @@
+const express = require('express');
+const fs = require('fs');
+const path = require('path');
+
+const app = express(); // Initialize the app
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Route to handle adding a blog
 app.post('/add-blog', (req, res) => {
-    console.log('Incoming request:', req.body); // Log incoming data
+    console.log('Incoming request:', req.body);
 
     const { image, date, title, category, author, content } = req.body;
 
@@ -59,4 +68,10 @@ app.post('/add-blog', (req, res) => {
         console.error('Error adding blog:', error);
         res.status(500).json({ error: 'Failed to add blog' });
     }
+});
+
+// Start the server
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
 });
