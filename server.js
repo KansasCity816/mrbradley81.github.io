@@ -2,11 +2,15 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 
-const app = express(); // Initialize the app
+const app = express();
+
+// Serve static files from the current directory
+app.use(express.static(path.join(__dirname)));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Route to handle adding a blog
+// Add a new blog
 app.post('/add-blog', (req, res) => {
     console.log('Incoming request:', req.body);
 
