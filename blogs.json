@@ -2,6 +2,14 @@
   {
     "image": "https://lockchampionslocksmith.com/assets/images/Blog/Blogs/Blog-2.jpg",
     "date": "2024-11-28",
+    "title": "tertetetert",
+    "url": "/pages/Blog/tertetetert.html",
+    "category": "testing this",
+    "author": "admin"
+  },
+  {
+    "image": "https://lockchampionslocksmith.com/assets/images/Blog/Blogs/Blog-2.jpg",
+    "date": "2024-11-28",
     "title": "Locksmithing is great!",
     "url": "/pages/Blog/locksmithing-is-great!.html",
     "category": "testing",
