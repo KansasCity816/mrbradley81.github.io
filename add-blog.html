@@ -216,33 +216,36 @@
 
   </div>
   <!-- ==================== Page-Title (End) ==================== -->
-  <h1>Add a New Blog</h1>
-  <form id="blogForm">
-    <label for="title">Title:</label>
-    <input type="text" id="title" name="title" required><br><br>
+  <main>
+    <h1>Add a New Blog</h1>
+    <form id="blogForm">
+      <label for="title">Title:</label>
+      <input type="text" id="title" name="title" placeholder="Enter blog title" required>
 
-    <label for="date">Date:</label>
-    <input type="date" id="date" name="date" required><br><br>
+      <label for="date">Date:</label>
+      <input type="date" id="date" name="date" required>
 
-    <label for="author">Author:</label>
-    <input type="text" id="author" name="author" required><br><br>
+      <label for="author">Author:</label>
+      <input type="text" id="author" name="author" placeholder="Enter author name" required>
 
-    <label for="category">Category:</label>
-    <input type="text" id="category" name="category" required><br><br>
+      <label for="category">Category:</label>
+      <input type="text" id="category" name="category" placeholder="Enter category" required>
 
-    <label for="image">Image URL:</label>
-    <input type="text" id="image" name="image" required><br><br>
+      <label for="image">Image URL:</label>
+      <input type="url" id="image" name="image" placeholder="Enter image URL" required>
 
-    <label for="content">Content:</label>
-    <textarea id="content" name="content" rows="10" cols="30" required></textarea><br><br>
+      <label for="content">Content:</label>
+      <textarea id="content" name="content" rows="10" placeholder="Write your blog content here" required></textarea>
 
-    <button type="submit">Submit</button>
-  </form>
+      <button type="submit">Submit</button>
+    </form>
+  </main>
 
   <script>
     document.getElementById('blogForm').addEventListener('submit', async (e) => {
       e.preventDefault();
 
+      // Collect form data
       const formData = {
         title: document.getElementById('title').value,
         date: document.getElementById('date').value,
@@ -252,18 +255,23 @@
         content: document.getElementById('content').value,
       };
 
-      // Add the blog to the list and create the blog post file
-      const response = await fetch('/add-blog', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-      });
+      try {
+        const response = await fetch('/add-blog', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData),
+        });
 
-      if (response.ok) {
-        alert('Blog added successfully!');
-        document.getElementById('blogForm').reset();
-      } else {
-        alert('Error adding blog.');
+        if (response.ok) {
+          const result = await response.json();
+          alert(`Blog added successfully! View it here: ${result.url}`);
+          document.getElementById('blogForm').reset();
+        } else {
+          alert('Error adding blog. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('An error occurred while adding the blog.');
       }
     });
   </script>
