@@ -55,7 +55,9 @@ app.post('/add-blog', (req, res) => {
         .replace(/{{date}}/g, date)
         .replace(/{{author}}/g, author)
         .replace(/{{category}}/g, category)
-        .replace(/{{content}}/g, content);
+		.replace(/{{tag 1}}/g, tag 1)
+		.replace(/{{tag 2}}/g, tag 2)
+		.replace(/{{tag 3}}/g, tag 3);
 
     fs.writeFileSync(blogFilePath, blogContent, 'utf-8');
 
