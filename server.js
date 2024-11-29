@@ -1,77 +1,72 @@
-const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const express = require('express');
 
 const app = express();
-
-// Serve static files from the current directory
-app.use(express.static(path.join(__dirname)));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Add a new blog
-app.post('/add-blog', (req, res) => {
-    console.log('Incoming request:', req.body);
+app.use(express.static(path.join(__dirname, 'public')));
 
+app.post('/add-blog', (req, res) => {
     const { image, date, title, category, author, content } = req.body;
 
-    if (!image || !date || !title || !category || !author || !content) {
-        console.error('Validation failed:', req.body);
-        return res.status(400).json({ error: 'All fields are required' });
-    }
+    // Format date to "Month Day" (e.g., "Nov 29")
+    const formattedDate = new Date(date).toLocaleDateString('en-US', {
+        month: 'short',
+        day: '2-digit',
+    });
 
     const blogsFilePath = path.join(__dirname, 'blogs.json');
     const blogTemplatePath = path.join(__dirname, 'blog-template.html');
-    const blogListPath = path.join(__dirname, 'blog-list.html');
+    const blogListPath = path.join(__dirname, 'public/blog-list.html');
 
-    const blogFilename = `/pages/Blog/${title.replace(/\s+/g, '-').toLowerCase()}.html`;
-    const blogFilePath = path.join(__dirname, blogFilename);
+    // Generate blog file name
+    const sanitizedTitle = title.replace(/\s+/g, '-').toLowerCase(); // Sanitize title
+    const blogFilename = `/pages/Blog/${sanitizedTitle}.html`;
+    const blogFilePath = path.join(__dirname, 'public', blogFilename);
 
-    try {
-        console.log('Updating blogs.json...');
-        const blogsData = JSON.parse(fs.readFileSync(blogsFilePath, 'utf-8'));
-        blogsData.unshift({ image, date, title, url: blogFilename, category, author });
-        fs.writeFileSync(blogsFilePath, JSON.stringify(blogsData, null, 2), 'utf-8');
+    // Step 1: Update blogs.json
+    const blogsData = JSON.parse(fs.readFileSync(blogsFilePath, 'utf-8'));
+    const newBlogEntry = { image, date: formattedDate, title, url: blogFilename, category, author };
+    blogsData.unshift(newBlogEntry);
+    fs.writeFileSync(blogsFilePath, JSON.stringify(blogsData, null, 2), 'utf-8');
 
-        console.log('Updating blog-list.html...');
-        const blogListHTML = fs.readFileSync(blogListPath, 'utf-8');
-        const insertionPoint = '<!-- ===== Blogs (Start) ===== -->';
-        const newBlogHTML = `
-          <div class="blog-item">
-            <div class="image">
-              <img src="${image}" alt="Blog-Image">
-              <div class="date"><span>${date}</span></div>
-            </div>
-            <div class="content">
-              <a class="main-heading" href="${blogFilename}">${title}</a>
-              <div class="details">
-                <h3><i class="fa-solid fa-circle-user"></i><span>By ${author}</span></h3>
-                <h3><i class="fa-solid fa-tags"></i><span>${category}</span></h3>
-              </div>
-            </div>
+    // Step 2: Update blog-list.html
+    const blogListHTML = fs.readFileSync(blogListPath, 'utf-8');
+    const insertionPoint = '<!-- ===== Blogs (Start) ===== -->';
+    const newBlogHTML = `
+      <!-- Blog -->
+      <div class="blog-item">
+        <div class="image">
+          <img src="${image}" alt="Blog-Image">
+          <div class="date"><span>${formattedDate}</span></div>
+        </div>
+        <div class="content">
+          <a class="main-heading" href="${blogFilename}">${title}</a>
+          <div class="details">
+            <h3><i class="fa-solid fa-circle-user"></i><span>By ${author}</span></h3>
+            <h3><i class="fa-solid fa-tags"></i><span>${category}</span></h3>
           </div>
-        `;
-        const updatedBlogListHTML = blogListHTML.replace(insertionPoint, `${insertionPoint}\n${newBlogHTML}`);
-        fs.writeFileSync(blogListPath, updatedBlogListHTML, 'utf-8');
+        </div>
+      </div>
+    `;
+    const updatedBlogListHTML = blogListHTML.replace(insertionPoint, `${insertionPoint}\n${newBlogHTML}`);
+    fs.writeFileSync(blogListPath, updatedBlogListHTML, 'utf-8');
 
-        console.log('Creating new blog post...');
-        const blogTemplate = fs.readFileSync(blogTemplatePath, 'utf-8');
-        const blogContent = blogTemplate
-            .replace(/{{title}}/g, title)
-            .replace(/{{image}}/g, image)
-            .replace(/{{date}}/g, date)
-            .replace(/{{author}}/g, author)
-            .replace(/{{category}}/g, category)
-            .replace(/{{content}}/g, content);
-        fs.writeFileSync(blogFilePath, blogContent, 'utf-8');
+    // Step 3: Create a new blog post file using the template
+    const blogTemplate = fs.readFileSync(blogTemplatePath, 'utf-8');
+    const blogContent = blogTemplate
+        .replace(/{{title}}/g, title)
+        .replace(/{{image}}/g, image)
+        .replace(/{{date}}/g, formattedDate)
+        .replace(/{{author}}/g, author)
+        .replace(/{{category}}/g, category)
+        .replace(/{{content}}/g, content);
 
-        console.log('Blog added successfully!');
-        res.status(201).json({ message: 'Blog added successfully!', url: blogFilename });
-    } catch (error) {
-        console.error('Error adding blog:', error);
-        res.status(500).json({ error: 'Failed to add blog' });
-    }
+    fs.writeFileSync(blogFilePath, blogContent, 'utf-8');
+
+    res.status(201).json({ message: 'Blog post added successfully!', url: blogFilename });
 });
 
 // Start the server
