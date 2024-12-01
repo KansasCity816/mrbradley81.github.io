@@ -4,42 +4,55 @@ const path = require('path');
 
 const app = express();
 
-// Serve static files from the current directory
+// Serve static files
 app.use(express.static(path.join(__dirname)));
 
+// Middleware to parse JSON and form data
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Add a new blog
+// Add a new blog endpoint
 app.post('/add-blog', (req, res) => {
     console.log('Incoming request:', req.body);
 
     const { image, date, title, category, author, content } = req.body;
 
+    // Validate required fields
     if (!image || !date || !title || !category || !author || !content) {
-        console.error('Validation failed:', req.body);
+        console.error('Validation failed: Missing required fields');
         return res.status(400).json({ error: 'All fields are required' });
     }
 
+    // Define paths
     const blogsFilePath = path.join(__dirname, 'blogs.json');
     const blogTemplatePath = path.join(__dirname, 'blog-template.html');
     const blogListPath = path.join(__dirname, 'blog-list.html');
-
     const blogFilename = `/pages/Blog/${title.replace(/\s+/g, '-').toLowerCase()}.html`;
     const blogFilePath = path.join(__dirname, blogFilename);
 
     try {
-        // Format the date to display only the month and day
+        // Format the date
         const formattedDate = new Date(date).toLocaleDateString('en-US', {
-            month: 'short', // e.g., "Nov"
-            day: '2-digit', // e.g., "29"
+            month: 'short',
+            day: '2-digit',
         });
 
+        // Update blogs.json
         console.log('Updating blogs.json...');
-        const blogsData = JSON.parse(fs.readFileSync(blogsFilePath, 'utf-8'));
-        blogsData.unshift({ image, date: formattedDate, title, url: blogFilename, category, author });
+        const blogsData = fs.existsSync(blogsFilePath)
+            ? JSON.parse(fs.readFileSync(blogsFilePath, 'utf-8'))
+            : [];
+        blogsData.unshift({
+            image,
+            date: formattedDate,
+            title,
+            url: blogFilename,
+            category,
+            author,
+        });
         fs.writeFileSync(blogsFilePath, JSON.stringify(blogsData, null, 2), 'utf-8');
 
+        // Update blog-list.html
         console.log('Updating blog-list.html...');
         const blogListHTML = fs.readFileSync(blogListPath, 'utf-8');
         const insertionPoint = '<!-- ===== Blogs (Start) ===== -->';
@@ -52,21 +65,24 @@ app.post('/add-blog', (req, res) => {
             <div class="content">
               <a class="main-heading" href="${blogFilename}">${title}</a>
               <div class="details">
-                <h3><i class="fa-solid fa-circle-user"></i><span>By ${author}</span></h3>
-                <h3><i class="fa-solid fa-tags"></i><span>${category}</span></h3>
+                <h3><i class="fa-solid fa-circle-user"></i> By ${author}</h3>
+                <h3><i class="fa-solid fa-tags"></i> ${category}</h3>
               </div>
             </div>
-          </div>
-        `;
-        const updatedBlogListHTML = blogListHTML.replace(insertionPoint, `${insertionPoint}\n${newBlogHTML}`);
+          </div>`;
+        const updatedBlogListHTML = blogListHTML.replace(
+            insertionPoint,
+            `${insertionPoint}\n${newBlogHTML}`
+        );
         fs.writeFileSync(blogListPath, updatedBlogListHTML, 'utf-8');
 
+        // Create the new blog post
         console.log('Creating new blog post...');
         const blogTemplate = fs.readFileSync(blogTemplatePath, 'utf-8');
         const blogContent = blogTemplate
             .replace(/{{title}}/g, title)
             .replace(/{{image}}/g, image)
-            .replace(/{{date}}/g, formattedDate) // Use formatted date
+            .replace(/{{date}}/g, formattedDate)
             .replace(/{{author}}/g, author)
             .replace(/{{category}}/g, category)
             .replace(/{{content}}/g, content);
@@ -75,7 +91,7 @@ app.post('/add-blog', (req, res) => {
         console.log('Blog added successfully!');
         res.status(201).json({ message: 'Blog added successfully!', url: blogFilename });
     } catch (error) {
-        console.error('Error adding blog:', error);
+        console.error('Error processing blog:', error);
         res.status(500).json({ error: 'Failed to add blog' });
     }
 });
