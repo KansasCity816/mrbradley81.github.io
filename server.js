@@ -10,43 +10,58 @@ app.use(express.static(path.join(__dirname)));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const blogsFilePath = path.join(__dirname, 'blogs.json');
+// Path definitions
+const blogsDirectory = path.join(__dirname, 'pages', 'Blog');
 const blogListPath = path.join(__dirname, 'blog-list.html');
-const blogDirectory = path.join(__dirname, 'pages/Blog');
 
-// Function to update blog-list.html with all blogs in the directory
+// Utility function to rebuild blog-list.html
 function updateBlogList() {
-    console.log('Updating blog-list.html with all blogs in /pages/Blog/');
     try {
-        const blogFiles = fs.readdirSync(blogDirectory);
+        console.log('Rebuilding blog-list.html...');
 
-        // Read existing blogs.json
-        const blogsData = JSON.parse(fs.readFileSync(blogsFilePath, 'utf-8'));
+        // Read all blog files in the blogs directory
+        const blogFiles = fs.readdirSync(blogsDirectory).filter(file => file.endsWith('.html'));
 
-        // Generate new blog-list content
-        const insertionPoint = '<!-- ===== Blogs (Start) ===== -->';
-        const blogListHTML = fs.readFileSync(blogListPath, 'utf-8');
-        let blogsHTML = '';
+        const blogEntries = blogFiles.map(file => {
+            const filePath = path.join(blogsDirectory, file);
+            const content = fs.readFileSync(filePath, 'utf-8');
 
-        blogsData.forEach(blog => {
-            blogsHTML += `
-            <div class="blog-item">
-                <div class="image">
-                    <img src="${blog.image}" alt="Blog-Image">
-                    <div class="date"><span>${blog.date}</span></div>
-                </div>
-                <div class="content">
-                    <a class="main-heading" href="${blog.url}">${blog.title}</a>
-                    <div class="details">
-                        <h3><i class="fa-solid fa-circle-user"></i><span>By ${blog.author}</span></h3>
-                        <h3><i class="fa-solid fa-tags"></i><span>${blog.category}</span></h3>
-                    </div>
-                </div>
-            </div>`;
+            // Extract metadata from the blog file (title, image, date, etc.)
+            const titleMatch = content.match(/<h1>(.*?)<\/h1>/); // Example: Extract title from <h1>
+            const imageMatch = content.match(/<img src="(.*?)" alt="/); // Extract image src
+            const dateMatch = content.match(/<span class="date">(.*?)<\/span>/); // Extract date
+            const authorMatch = content.match(/<span>By (.*?)<\/span>/); // Extract author
+
+            return {
+                url: `/pages/Blog/${file}`,
+                title: titleMatch ? titleMatch[1] : 'Untitled',
+                image: imageMatch ? imageMatch[1] : '/assets/images/default.png',
+                date: dateMatch ? dateMatch[1] : 'Unknown Date',
+                author: authorMatch ? authorMatch[1] : 'Unknown Author',
+            };
         });
 
-        const updatedBlogListHTML = blogListHTML.replace(
-            new RegExp(`${insertionPoint}[\\s\\S]*?<!-- ===== Blogs (End) ===== -->`),
+        // Generate the updated blog list HTML
+        const blogsHTML = blogEntries.map(blog => `
+          <div class="blog-item">
+            <div class="image">
+              <img src="${blog.image}" alt="${blog.title}">
+              <div class="date"><span>${blog.date}</span></div>
+            </div>
+            <div class="content">
+              <a class="main-heading" href="${blog.url}">${blog.title}</a>
+              <div class="details">
+                <h3><i class="fa-solid fa-circle-user"></i><span>By ${blog.author}</span></h3>
+              </div>
+            </div>
+          </div>
+        `).join('\n');
+
+        // Insert into blog-list.html
+        const blogListTemplate = fs.readFileSync(blogListPath, 'utf-8');
+        const insertionPoint = '<!-- ===== Blogs (Start) ===== -->';
+        const updatedBlogListHTML = blogListTemplate.replace(
+            new RegExp(`${insertionPoint}[\\s\\S]*?<!-- ===== Blogs (End) ===== -->`, 'g'),
             `${insertionPoint}\n${blogsHTML}\n<!-- ===== Blogs (End) ===== -->`
         );
 
@@ -57,7 +72,15 @@ function updateBlogList() {
     }
 }
 
-// Add a new blog via POST request
+// Watch the blogs directory for changes
+fs.watch(blogsDirectory, (eventType, filename) => {
+    if (eventType === 'rename' && filename.endsWith('.html')) {
+        console.log(`Detected change in ${filename}. Rebuilding blog list...`);
+        updateBlogList();
+    }
+});
+
+// Add a new blog
 app.post('/add-blog', (req, res) => {
     console.log('Incoming request:', req.body);
 
@@ -72,15 +95,11 @@ app.post('/add-blog', (req, res) => {
     const blogFilePath = path.join(__dirname, blogFilename);
 
     try {
+        // Format the date to display only the month and day
         const formattedDate = new Date(date).toLocaleDateString('en-US', {
-            month: 'short', // e.g., "Nov"
-            day: '2-digit', // e.g., "29"
+            month: 'short',
+            day: '2-digit',
         });
-
-        console.log('Updating blogs.json...');
-        const blogsData = JSON.parse(fs.readFileSync(blogsFilePath, 'utf-8'));
-        blogsData.unshift({ image, date: formattedDate, title, url: blogFilename, category, author });
-        fs.writeFileSync(blogsFilePath, JSON.stringify(blogsData, null, 2), 'utf-8');
 
         console.log('Creating new blog post...');
         const blogTemplatePath = path.join(__dirname, 'blog-template.html');
@@ -94,7 +113,13 @@ app.post('/add-blog', (req, res) => {
             .replace(/{{content}}/g, content);
         fs.writeFileSync(blogFilePath, blogContent, 'utf-8');
 
-        console.log('Updating blog list...');
+        console.log('Updating blogs.json...');
+        const blogsFilePath = path.join(__dirname, 'blogs.json');
+        const blogsData = JSON.parse(fs.readFileSync(blogsFilePath, 'utf-8'));
+        blogsData.unshift({ image, date: formattedDate, title, url: blogFilename, category, author });
+        fs.writeFileSync(blogsFilePath, JSON.stringify(blogsData, null, 2), 'utf-8');
+
+        // Update blog-list.html
         updateBlogList();
 
         console.log('Blog added successfully!');
@@ -105,16 +130,9 @@ app.post('/add-blog', (req, res) => {
     }
 });
 
-// Monitor the /pages/Blog/ directory for new files
-fs.watch(blogDirectory, (eventType, filename) => {
-    if (eventType === 'rename' && filename) {
-        console.log(`File change detected in /pages/Blog/: ${filename}`);
-        updateBlogList();
-    }
-});
-
 // Start the server
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
+    updateBlogList(); // Initial build of blog-list.html
 });
