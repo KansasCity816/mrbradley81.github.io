@@ -47,11 +47,21 @@ app.post('/add-blog', (req, res) => {
             .replace(/{{category}}/g, category)
             .replace(/{{content}}/g, content);
         fs.writeFileSync(blogFilePath, blogContent, 'utf-8');
+        console.log(`New blog created at: ${blogFilePath}`);
 
         // Update the blog list
         console.log('Updating blog list...');
+        if (!fs.existsSync(BLOG_LIST_FILE)) {
+            throw new Error(`blog-list.html not found at ${BLOG_LIST_FILE}`);
+        }
+
         const blogListHTML = fs.readFileSync(BLOG_LIST_FILE, 'utf-8');
         const insertionPoint = '<!-- ===== Blogs (Start) ===== -->';
+
+        if (!blogListHTML.includes(insertionPoint)) {
+            throw new Error(`Insertion point not found in blog-list.html`);
+        }
+
         const newBlogEntry = `
           <div class="blog-item">
             <div class="image">
@@ -65,15 +75,14 @@ app.post('/add-blog', (req, res) => {
                 <h3><i class="fa-solid fa-tags"></i> ${category}</h3>
               </div>
             </div>
-          </div>
-        `;
+          </div>`;
         const updatedBlogListHTML = blogListHTML.replace(
             insertionPoint,
             `${insertionPoint}\n${newBlogEntry}`
         );
         fs.writeFileSync(BLOG_LIST_FILE, updatedBlogListHTML, 'utf-8');
+        console.log('Blog list updated successfully!');
 
-        console.log('Blog added successfully!');
         res.status(201).json({ message: 'Blog added successfully!', url: `/pages/Blog/${blogFilename}` });
     } catch (error) {
         console.error('Error processing blog:', error);
