@@ -25,7 +25,7 @@ app.post('/add-blog', (req, res) => {
     const blogTemplatePath = path.join(__dirname, 'blog-template.html');
     const blogListPath = path.join(__dirname, 'blog-list.html');
 
-    const blogFilename = `/pages/Blog/${title.replace(/\s+/g, '-').toLowerCase()}.html`;
+    const blogFilename = /pages/Blog/${title.replace(/\s+/g, '-').toLowerCase()}.html;
     const blogFilePath = path.join(__dirname, blogFilename);
 
     try {
@@ -36,19 +36,17 @@ app.post('/add-blog', (req, res) => {
         });
 
         console.log('Updating blogs.json...');
-        const blogsData = fs.existsSync(blogsFilePath)
-            ? JSON.parse(fs.readFileSync(blogsFilePath, 'utf-8'))
-            : [];
+        const blogsData = JSON.parse(fs.readFileSync(blogsFilePath, 'utf-8'));
         blogsData.unshift({ image, date: formattedDate, title, url: blogFilename, category, author });
         fs.writeFileSync(blogsFilePath, JSON.stringify(blogsData, null, 2), 'utf-8');
 
         console.log('Updating blog-list.html...');
         const blogListHTML = fs.readFileSync(blogListPath, 'utf-8');
         const insertionPoint = '<!-- ===== Blogs (Start) ===== -->';
-        const newBlogHTML = `
+        const newBlogHTML = 
           <div class="blog-item">
             <div class="image">
-              <img src="${image}" alt="Blog Image">
+              <img src="${image}" alt="Blog-Image">
               <div class="date"><span>${formattedDate}</span></div>
             </div>
             <div class="content">
@@ -58,11 +56,9 @@ app.post('/add-blog', (req, res) => {
                 <h3><i class="fa-solid fa-tags"></i><span>${category}</span></h3>
               </div>
             </div>
-          </div>`;
-        const updatedBlogListHTML = blogListHTML.replace(
-            insertionPoint,
-            `${insertionPoint}\n${newBlogHTML}`
-        );
+          </div>
+        ;
+        const updatedBlogListHTML = blogListHTML.replace(insertionPoint, ${insertionPoint}\n${newBlogHTML});
         fs.writeFileSync(blogListPath, updatedBlogListHTML, 'utf-8');
 
         console.log('Creating new blog post...');
@@ -70,7 +66,7 @@ app.post('/add-blog', (req, res) => {
         const blogContent = blogTemplate
             .replace(/{{title}}/g, title)
             .replace(/{{image}}/g, image)
-            .replace(/{{date}}/g, formattedDate)
+            .replace(/{{date}}/g, formattedDate) // Use formatted date
             .replace(/{{author}}/g, author)
             .replace(/{{category}}/g, category)
             .replace(/{{content}}/g, content);
@@ -87,5 +83,5 @@ app.post('/add-blog', (req, res) => {
 // Start the server
 const PORT = 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+    console.log(Server running on http://localhost:${PORT});
 });
