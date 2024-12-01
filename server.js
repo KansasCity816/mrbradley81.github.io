@@ -3,136 +3,84 @@ const fs = require('fs');
 const path = require('path');
 
 const app = express();
+const PORT = 3000;
 
-// Serve static files from the current directory
+// Paths
+const BLOG_DIR = path.join(__dirname, 'pages', 'Blog'); // Blog posts directory
+const BLOG_LIST = path.join(__dirname, 'blog-list.html'); // Blog list file
+
+// Middleware to serve static files
 app.use(express.static(path.join(__dirname)));
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Function to rebuild the blog list
+function rebuildBlogList() {
+    const blogEntries = [];
 
-// Path definitions
-const blogsDirectory = path.join(__dirname, 'pages', 'Blog');
-const blogListPath = path.join(__dirname, 'blog-list.html');
+    // Read all files in the blog directory
+    fs.readdir(BLOG_DIR, (err, files) => {
+        if (err) {
+            console.error('Error reading blog directory:', err);
+            return;
+        }
 
-// Utility function to rebuild blog-list.html
-function updateBlogList() {
-    try {
-        console.log('Rebuilding blog-list.html...');
+        // Process each blog file
+        files.forEach((file) => {
+            if (file.endsWith('.html')) {
+                const filePath = path.join(BLOG_DIR, file);
+                const fileContent = fs.readFileSync(filePath, 'utf-8');
 
-        // Read all blog files in the blogs directory
-        const blogFiles = fs.readdirSync(blogsDirectory).filter(file => file.endsWith('.html'));
+                // Extract metadata (title, description)
+                const titleMatch = fileContent.match(/<title>(.*?)<\/title>/);
+                const title = titleMatch ? titleMatch[1] : 'Untitled Blog';
 
-        const blogEntries = blogFiles.map(file => {
-            const filePath = path.join(blogsDirectory, file);
-            const content = fs.readFileSync(filePath, 'utf-8');
+                const descriptionMatch = fileContent.match(/<meta name="description" content="(.*?)"/);
+                const description = descriptionMatch ? descriptionMatch[1] : 'No description available.';
 
-            // Extract metadata from the blog file (title, image, date, etc.)
-            const titleMatch = content.match(/<h1>(.*?)<\/h1>/); // Example: Extract title from <h1>
-            const imageMatch = content.match(/<img src="(.*?)" alt="/); // Extract image src
-            const dateMatch = content.match(/<span class="date">(.*?)<\/span>/); // Extract date
-            const authorMatch = content.match(/<span>By (.*?)<\/span>/); // Extract author
+                // Default image (if no image is found)
+                const imageMatch = fileContent.match(/<img src="(.*?)"/);
+                const image = imageMatch
+                    ? imageMatch[1]
+                    : 'https://lockchampionslocksmith.com/assets/images/default-blog.jpg';
 
-            return {
-                url: `/pages/Blog/${file}`,
-                title: titleMatch ? titleMatch[1] : 'Untitled',
-                image: imageMatch ? imageMatch[1] : '/assets/images/default.png',
-                date: dateMatch ? dateMatch[1] : 'Unknown Date',
-                author: authorMatch ? authorMatch[1] : 'Unknown Author',
-            };
+                // Add blog entry
+                blogEntries.push({ title, description, image, file });
+            }
         });
 
-        // Generate the updated blog list HTML
-        const blogsHTML = blogEntries.map(blog => `
-          <div class="blog-item">
-            <div class="image">
-              <img src="${blog.image}" alt="${blog.title}">
-              <div class="date"><span>${blog.date}</span></div>
-            </div>
-            <div class="content">
-              <a class="main-heading" href="${blog.url}">${blog.title}</a>
-              <div class="details">
-                <h3><i class="fa-solid fa-circle-user"></i><span>By ${blog.author}</span></h3>
-              </div>
-            </div>
+        // Generate the blog list HTML
+        const blogListContent = `
+          <div class="blog-list">
+            ${blogEntries
+                .map(
+                    (entry) => `
+                <div class="blog-item">
+                  <a href="/pages/Blog/${entry.file}">
+                    <img src="${entry.image}" alt="${entry.title}">
+                    <h3>${entry.title}</h3>
+                    <p>${entry.description}</p>
+                  </a>
+                </div>
+              `
+                )
+                .join('\n')}
           </div>
-        `).join('\n');
+        `;
 
-        // Insert into blog-list.html
-        const blogListTemplate = fs.readFileSync(blogListPath, 'utf-8');
-        const insertionPoint = '<!-- ===== Blogs (Start) ===== -->';
-        const updatedBlogListHTML = blogListTemplate.replace(
-            new RegExp(`${insertionPoint}[\\s\\S]*?<!-- ===== Blogs (End) ===== -->`, 'g'),
-            `${insertionPoint}\n${blogsHTML}\n<!-- ===== Blogs (End) ===== -->`
-        );
-
-        fs.writeFileSync(blogListPath, updatedBlogListHTML, 'utf-8');
-        console.log('blog-list.html updated successfully!');
-    } catch (error) {
-        console.error('Error updating blog list:', error);
-    }
+        // Write to the blog-list.html file
+        fs.writeFileSync(BLOG_LIST, blogListContent, 'utf-8');
+        console.log('Blog list updated successfully!');
+    });
 }
 
-// Watch the blogs directory for changes
-fs.watch(blogsDirectory, (eventType, filename) => {
-    if (eventType === 'rename' && filename.endsWith('.html')) {
-        console.log(`Detected change in ${filename}. Rebuilding blog list...`);
-        updateBlogList();
-    }
-});
-
-// Add a new blog
-app.post('/add-blog', (req, res) => {
-    console.log('Incoming request:', req.body);
-
-    const { image, date, title, category, author, content } = req.body;
-
-    if (!image || !date || !title || !category || !author || !content) {
-        console.error('Validation failed:', req.body);
-        return res.status(400).json({ error: 'All fields are required' });
-    }
-
-    const blogFilename = `/pages/Blog/${title.replace(/\s+/g, '-').toLowerCase()}.html`;
-    const blogFilePath = path.join(__dirname, blogFilename);
-
-    try {
-        // Format the date to display only the month and day
-        const formattedDate = new Date(date).toLocaleDateString('en-US', {
-            month: 'short',
-            day: '2-digit',
-        });
-
-        console.log('Creating new blog post...');
-        const blogTemplatePath = path.join(__dirname, 'blog-template.html');
-        const blogTemplate = fs.readFileSync(blogTemplatePath, 'utf-8');
-        const blogContent = blogTemplate
-            .replace(/{{title}}/g, title)
-            .replace(/{{image}}/g, image)
-            .replace(/{{date}}/g, formattedDate)
-            .replace(/{{author}}/g, author)
-            .replace(/{{category}}/g, category)
-            .replace(/{{content}}/g, content);
-        fs.writeFileSync(blogFilePath, blogContent, 'utf-8');
-
-        console.log('Updating blogs.json...');
-        const blogsFilePath = path.join(__dirname, 'blogs.json');
-        const blogsData = JSON.parse(fs.readFileSync(blogsFilePath, 'utf-8'));
-        blogsData.unshift({ image, date: formattedDate, title, url: blogFilename, category, author });
-        fs.writeFileSync(blogsFilePath, JSON.stringify(blogsData, null, 2), 'utf-8');
-
-        // Update blog-list.html
-        updateBlogList();
-
-        console.log('Blog added successfully!');
-        res.status(201).json({ message: 'Blog added successfully!', url: blogFilename });
-    } catch (error) {
-        console.error('Error adding blog:', error);
-        res.status(500).json({ error: 'Failed to add blog' });
-    }
+// Route to rebuild blog list manually
+app.get('/rebuild-blog-list', (req, res) => {
+    rebuildBlogList();
+    res.send('Blog list rebuilt successfully!');
 });
 
 // Start the server
-const PORT = 3000;
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-    updateBlogList(); // Initial build of blog-list.html
+    console.log(`Server is running on http://localhost:${PORT}`);
+    // Rebuild blog list on server start
+    rebuildBlogList();
 });
