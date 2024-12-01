@@ -111,7 +111,9 @@ fs.watch(BLOGS_DIR, (eventType, filename) => {
             const image = imageMatch ? imageMatch[1] : '/assets/images/default-blog.jpg';
 
             const dateMatch = blogContent.match(/<meta name="date" content="(.*?)"/);
-            const date = dateMatch ? new Date(dateMatch[1]).toLocaleDateString('en-US', { month: 'short', day: '2-digit' }) : 'Unknown Date';
+            const date = dateMatch
+                ? new Date(dateMatch[1]).toLocaleDateString('en-US', { month: 'short', day: '2-digit' })
+                : 'Unknown Date';
 
             const authorMatch = blogContent.match(/<meta name="author" content="(.*?)"/);
             const author = authorMatch ? authorMatch[1] : 'Unknown Author';
@@ -124,6 +126,7 @@ fs.watch(BLOGS_DIR, (eventType, filename) => {
         }
     }
 });
+
 
 // Start the server
 const PORT = 3000;
