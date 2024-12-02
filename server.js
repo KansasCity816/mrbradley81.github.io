@@ -16,6 +16,7 @@ app.post('/add-blog', (req, res) => {
 
     const { image, date, title, category, author, content } = req.body;
 
+    // Validate required fields
     if (!image || !date || !title || !category || !author || !content) {
         console.error('Validation failed:', req.body);
         return res.status(400).json({ error: 'All fields are required' });
@@ -25,14 +26,16 @@ app.post('/add-blog', (req, res) => {
     const blogTemplatePath = path.join(__dirname, 'blog-template.html');
     const blogListPath = path.join(__dirname, 'blog-list.html');
 
-    const blogFilename = `/pages/Blog/${title.replace(/\s+/g, '-').toLowerCase()}.html`;
+    // Generate blog file name and path
+    const blogSlug = title.replace(/\s+/g, '-').toLowerCase();
+    const blogFilename = `/pages/Blog/${blogSlug}.html`;
     const blogFilePath = path.join(__dirname, blogFilename);
 
     try {
         // Format the date to display only the month and day
         const formattedDate = new Date(date).toLocaleDateString('en-US', {
-            month: 'short',
-            day: '2-digit',
+            month: 'short', // e.g., "Dec"
+            day: '2-digit', // e.g., "01"
         });
 
         console.log('Updating blogs.json...');
@@ -58,25 +61,26 @@ app.post('/add-blog', (req, res) => {
             </div>
           </div>
         `;
-
-        // Avoid re-adding duplicate blog entries
-        const alreadyExists = blogListHTML.includes(newBlogHTML.trim());
-        if (!alreadyExists) {
-            const updatedBlogListHTML = blogListHTML.replace(insertionPoint, `${insertionPoint}\n${newBlogHTML}`);
-            fs.writeFileSync(blogListPath, updatedBlogListHTML, 'utf-8');
-        } else {
-            console.log('Duplicate entry detected. Skipping insertion.');
-        }
+        const updatedBlogListHTML = blogListHTML.replace(insertionPoint, `${insertionPoint}\n${newBlogHTML}`);
+        fs.writeFileSync(blogListPath, updatedBlogListHTML, 'utf-8');
 
         console.log('Creating new blog post...');
         const blogTemplate = fs.readFileSync(blogTemplatePath, 'utf-8');
         const blogContent = blogTemplate
             .replace(/{{title}}/g, title)
             .replace(/{{image}}/g, image)
-            .replace(/{{date}}/g, formattedDate)
+            .replace(/{{date}}/g, formattedDate) // Use formatted date
             .replace(/{{author}}/g, author)
             .replace(/{{category}}/g, category)
-            .replace(/{{content}}/g, content);
+            .replace(/{{content}}/g, content)
+            .replace(
+                /{{title.replace\(/\s\+\/g, '-'\).toLowerCase\(\)}}/g,
+                blogSlug
+            ) // Fix og:url tag
+            .replace(
+                /{{content.substring\(0, 150\)}}/g,
+                `${content.substring(0, 150)}...`
+            ); // Fix meta description
         fs.writeFileSync(blogFilePath, blogContent, 'utf-8');
 
         console.log('Blog added successfully!');
