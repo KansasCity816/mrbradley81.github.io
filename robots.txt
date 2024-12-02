@@ -1,4 +1,5 @@
 User-agent: *
-Disallow:
+Disallow: /add-blog.html/
+Disallow: /blog-template.html/
 
 Sitemap: https://lockchampionslocksmith.com/sitemap.xml
