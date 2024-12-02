@@ -19,7 +19,15 @@ const blogTemplatePath = path.join(__dirname, 'blog-template.html');
 // Function to update blog-list.html when a new blog is added
 function addBlogToList(blogFilename, title, image, formattedDate, author, category) {
     console.log('Updating blog-list.html...');
-    const blogListHTML = fs.readFileSync(BLOG_LIST_FILE, 'utf-8');
+    let blogListHTML = fs.readFileSync(BLOG_LIST_FILE, 'utf-8');
+
+    // Check if the blog is already in the list
+    const blogExists = blogListHTML.includes(`<a class="main-heading" href="/pages/Blog/${blogFilename}">${title}</a>`);
+    if (blogExists) {
+        console.log(`Blog "${title}" already exists in blog-list.html. Skipping addition.`);
+        return;
+    }
+
     const insertionPoint = '<!-- ===== Blogs (Start) ===== -->';
     const newBlogHTML = `
       <div class="blog-item">
@@ -61,8 +69,8 @@ app.post('/add-blog', (req, res) => {
     try {
         // Format the date
         const formattedDate = new Date(date).toLocaleDateString('en-US', {
-            month: 'short', // e.g., "Nov"
-            day: '2-digit', // e.g., "29"
+            month: 'short',
+            day: '2-digit',
         });
 
         console.log('Creating new blog post...');
@@ -85,7 +93,7 @@ app.post('/add-blog', (req, res) => {
         blogsData.unshift({ image, date: formattedDate, title, url: blogFilename, category, author });
         fs.writeFileSync(blogsFilePath, JSON.stringify(blogsData, null, 2), 'utf-8');
 
-        // Update blog list
+        // Update blog list (addBlogToList will check for duplicates)
         addBlogToList(blogFilename, title, image, formattedDate, author, category);
 
         res.status(201).json({ message: 'Blog added successfully!', url: `/pages/Blog/${blogFilename}` });
@@ -121,12 +129,11 @@ fs.watch(BLOGS_DIR, (eventType, filename) => {
             const categoryMatch = blogContent.match(/<meta name="category" content="(.*?)"/);
             const category = categoryMatch ? categoryMatch[1] : 'Uncategorized';
 
-            // Add to blog-list.html
+            // Add to blog-list.html (addBlogToList will check for duplicates)
             addBlogToList(filename, title, image, date, author, category);
         }
     }
 });
-
 
 // Start the server
 const PORT = 3000;
