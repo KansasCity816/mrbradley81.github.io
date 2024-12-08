@@ -13,9 +13,9 @@ app.use(express.urlencoded({ extended: true }));
 app.post('/add-blog', (req, res) => {
     console.log('Incoming request:', req.body);
 
-    const { image, date, title, category, author, content } = req.body;
+    const { image, date, title, category, author, content, description } = req.body;
 
-    if (!image || !date || !title || !category || !author || !content) {
+    if (!image || !date || !title || !category || !author || !content || !description) {
         console.error('Validation failed:', req.body);
         return res.status(400).json({ error: 'All fields are required' });
     }
@@ -51,6 +51,7 @@ app.post('/add-blog', (req, res) => {
             </div>
             <div class="content">
               <a class="main-heading" href="${blogFilename}">${title}</a>
+			  <p class="blog-description">${description}</p>
               <div class="details">
                 <h3><i class="fa-solid fa-circle-user"></i><span>By ${author}</span></h3>
                 <h3><i class="fa-solid fa-tags"></i><span>${category}</span></h3>
