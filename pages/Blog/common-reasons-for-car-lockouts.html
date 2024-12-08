@@ -91,6 +91,28 @@
 		.page-info p {
     padding-bottom: 0.5rem;
 }
+
+.share-buttons {
+  margin-top: 20px;
+  padding: 10px 0;
+}
+.share-buttons h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #333;
+}
+.share-buttons a {
+  margin-right: 10px;
+  text-decoration: none;
+  font-size: 16px;
+  color: #007bff;
+}
+.share-buttons a:hover {
+  text-decoration: underline;
+}
+.share-buttons i {
+  margin-right: 5px;
+}
     </style>
 </head> 
 <body> 
@@ -270,13 +292,7 @@
             </a>
           </div>
           <div class="end-details">
-            <div class="share">
-              <h3>Share:</h3>
-              <a href="https://www.facebook.com/lockchampionslocksmith"><i class="fab fa-facebook-f"></i></a>
-              <a href="https://x.com/lockchampions_"><i class="fab fa-twitter"></i></a>
-              <a href="https://www.instagram.com/lockchampionslocksmith"><i class="fab fa-instagram"></i></a>
-              <a href="https://www.linkedin.com/company/lockchampionslocksmith"><i class="fab fa-linkedin"></i></a>
-            </div>
+            <div class="share-buttons"><h3>Share this post:</h3><a href="https://twitter.com/intent/tweet?url={{url}}&text={{title}}&via=LockChampions_" target="_blank"><i class="fab fa-twitter"></i> Twitter</a><a href="https://www.facebook.com/sharer/sharer.php?u={{url}}" target="_blank"><i class="fab fa-facebook-f"></i> Facebook</a><a href="https://www.linkedin.com/shareArticle?mini=true&url={{url}}&title={{title}}&summary={{description}}&source=LockChampionsLocksmith" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a><a href="mailto:?subject={{title}}&body=Check out this blog: {{url}}" target="_blank"><i class="fas fa-envelope"></i> Email</a></div>
           </div>
         </div>
       </div>
