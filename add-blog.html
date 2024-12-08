@@ -234,6 +234,9 @@
 
       <label for="image">Image URL:</label>
       <input type="url" id="image" name="image" placeholder="Enter image URL" required>
+	  
+	  <label for="content">Description:</label>
+      <textarea id="description" name="description" rows="10" placeholder="Write your description here" required></textarea>
 
       <label for="content">Content:</label>
       <textarea id="content" name="content" rows="10" placeholder="Write your blog content here" required></textarea>
@@ -254,6 +257,7 @@
         category: document.getElementById('category').value,
         image: document.getElementById('image').value,
         content: document.getElementById('content').value,
+		description: document.getElementById('description').value,
       };
 
       try {
