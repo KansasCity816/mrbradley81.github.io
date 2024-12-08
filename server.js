@@ -24,7 +24,8 @@ app.post('/add-blog', (req, res) => {
     const blogTemplatePath = path.join(__dirname, 'blog-template.html');
     const blogListPath = path.join(__dirname, 'blog-list.html');
 
-    const blogFilename = `/pages/Blog/${title}.html`;
+    const blogSlug = title.replace(/\s+/g, '-').toLowerCase(); // Generate a slug for the blog
+    const blogFilename = `/pages/Blog/${blogSlug}.html`;
     const blogFilePath = path.join(__dirname, blogFilename);
 
     try {
@@ -69,11 +70,10 @@ app.post('/add-blog', (req, res) => {
             .replace(/{{author}}/g, author)
             .replace(/{{category}}/g, category)
             .replace(/{{content}}/g, content)
-            .replace(
-                /{{title.replace\(\s\+\/g, '-'\).toLowerCase\(\)}}/g,
-                title.replace(/\s+/g, '-').toLowerCase()
-            )
-            .replace(/{{content.substring\(0, 150\)}}/g, content.substring(0, 150));
+            .replace(/{{url}}/g, `https://lockchampionslocksmith.com${blogFilename}`)
+            .replace(/{{description}}/g, content.substring(0, 150))
+            .replace(/{{title.replace\(\s\+\/g, '-'\).toLowerCase\(\)}}/g, blogSlug);
+
         fs.writeFileSync(blogFilePath, blogContent, 'utf-8');
 
         console.log('Blog added successfully!');

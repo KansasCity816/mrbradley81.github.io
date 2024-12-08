@@ -219,7 +219,7 @@
   <!-- ==================== Page-Title (End) ==================== -->
   <main>
     <h1>Add a New Blog</h1>
-    <form id="blogForm">
+     <form id="blogForm">
       <label for="title">Title:</label>
       <input type="text" id="title" name="title" placeholder="Enter blog title" required>
 
@@ -235,8 +235,8 @@
       <label for="image">Image URL:</label>
       <input type="url" id="image" name="image" placeholder="Enter image URL" required>
 	  
-	  <label for="content">Description:</label>
-      <textarea id="description" name="description" rows="10" placeholder="Write your description here" required></textarea>
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" rows="4" placeholder="Write your description here" required></textarea>
 
       <label for="content">Content:</label>
       <textarea id="content" name="content" rows="10" placeholder="Write your blog content here" required></textarea>
@@ -250,15 +250,20 @@
       e.preventDefault();
 
       // Collect form data
+      const title = document.getElementById('title').value;
       const formData = {
-        title: document.getElementById('title').value,
+        title,
         date: document.getElementById('date').value,
         author: document.getElementById('author').value,
         category: document.getElementById('category').value,
         image: document.getElementById('image').value,
+        description: document.getElementById('description').value,
         content: document.getElementById('content').value,
-		description: document.getElementById('description').value,
       };
+
+      // Generate URL and slug dynamically
+      const slug = title.replace(/\s+/g, '-').toLowerCase();
+      formData.url = `https://lockchampionslocksmith.com/pages/Blog/${slug}.html`;
 
       try {
         const response = await fetch('/add-blog', {
