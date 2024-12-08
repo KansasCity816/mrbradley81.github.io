@@ -12,15 +12,15 @@
   <link rel="icon" type="image/x-icon" href="https://lockchampionslocksmith.com/assets/images/favicon.ico">
 
   <!-- Meta Tags for SEO -->
-  <meta name="description" content="{{content.substring(0, 150)}}...">
+  <meta name="description" content="{{description}}">
   <meta name="keywords" content="Locksmith Blog, Locksmith Tips, {{category}}, Lock Champions">
   <meta name="author" content="{{author}}">
 
   <!-- Open Graph Meta Tags -->
   <meta property="og:title" content="{{title}}">
-  <meta property="og:description" content="{{content.substring(0, 150)}}...">
+  <meta property="og:description" content="{{description}}">
   <meta property="og:image" content="{{image}}">
-  <meta property="og:url" content="https://lockchampionslocksmith.com/pages/Blog/{{title.replace(/\s+/g, '-').toLowerCase()}}.html">
+  <meta property="og:url" content="{{url}}">
   <meta property="og:type" content="article">
 
   <!-- Font-Awesome (CSS) -->
@@ -258,7 +258,7 @@
     <div class="link">
       <a href="https://lockchampionslocksmith.com/">Home</a>
       <i class="fa-solid fa-angles-right"></i>
-	  <h1 class="page" style="margin-bottom: 3px; font-size: 20px; "><a href="https://lockchampionslocksmith.com/pages/Blog/{{title.replace(/\s+/g, '-').toLowerCase()}}">{{title}}</a></h1>
+	  <h1 class="page" style="margin-bottom: 3px; font-size: 20px; "> <a href="{{url}}">{{title}}</a></h1>
 
     </div>
   </div>
@@ -278,6 +278,7 @@
             <h5><i class="fa-solid fa-circle-user"></i><span>{{author}}</span></h5>
             <h5><i class="fa-solid fa-tags"></i><span>{{category}}</span></h5>
           </div>
+		  <p><strong>{{description}}</strong></p> 
           <p>{{content}}</p>
           <div class="blog-gallery page-gallery">
             <a href="{{image}}">
