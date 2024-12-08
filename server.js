@@ -24,7 +24,7 @@ app.post('/add-blog', (req, res) => {
     const blogTemplatePath = path.join(__dirname, 'blog-template.html');
     const blogListPath = path.join(__dirname, 'blog-list.html');
 
-    const blogFilename = `/pages/Blog/${title.replace(/\s+/g, '-').toLowerCase()}.html`;
+    const blogFilename = `/pages/Blog/${title}.html`;
     const blogFilePath = path.join(__dirname, blogFilename);
 
     try {
