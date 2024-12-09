@@ -9,6 +9,29 @@ app.use(express.static(path.join(__dirname)));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Function to update the sitemap
+function updateSitemap(blogUrl, lastmod) {
+    const sitemapPath = path.join(__dirname, 'sitemap.xml');
+
+    try {
+        let sitemapContent = fs.readFileSync(sitemapPath, 'utf-8');
+        const newSitemapEntry = `
+  <url>
+    <loc>${blogUrl}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+`;
+        // Insert new entry before the closing </urlset> tag
+        sitemapContent = sitemapContent.replace('</urlset>', `${newSitemapEntry}</urlset>`);
+        fs.writeFileSync(sitemapPath, sitemapContent, 'utf-8');
+        console.log('Sitemap updated successfully!');
+    } catch (error) {
+        console.error('Error updating sitemap:', error);
+    }
+}
+
 // Add a new blog
 app.post('/add-blog', (req, res) => {
     console.log('Incoming request:', req.body);
@@ -51,7 +74,7 @@ app.post('/add-blog', (req, res) => {
             </div>
             <div class="content">
               <a class="main-heading" href="${blogFilename}">${title}</a>
-			  <p class="blog-description">${description}</p>
+              <p class="blog-description">${description}</p>
               <div class="details">
                 <h3><i class="fa-solid fa-circle-user"></i><span>By ${author}</span></h3>
                 <h3><i class="fa-solid fa-tags"></i><span>${category}</span></h3>
@@ -65,19 +88,21 @@ app.post('/add-blog', (req, res) => {
         console.log('Creating new blog post...');
         const blogTemplate = fs.readFileSync(blogTemplatePath, 'utf-8');
         const blogContent = blogTemplate
-  .replace(/{{title}}/g, title)
-  .replace(/{{image}}/g, image)
-  .replace(/{{date}}/g, formattedDate)
-  .replace(/{{author}}/g, author)
-  .replace(/{{category}}/g, category)
-  .replace(/{{content}}/g, content)
-  .replace(/{{url}}/g, `https://lockchampionslocksmith.com/pages/Blog/${blogSlug}.html`) // Uses the correct blog slug
-  .replace(/{{description}}/g, description) // Uses the passed description field
-  .replace(/{{title.replace\(\s\+\/g, '-'\).toLowerCase\(\)}}/g, blogSlug); // Correctly sets the slug.
-
-
+            .replace(/{{title}}/g, title)
+            .replace(/{{image}}/g, image)
+            .replace(/{{date}}/g, formattedDate)
+            .replace(/{{author}}/g, author)
+            .replace(/{{category}}/g, category)
+            .replace(/{{content}}/g, content)
+            .replace(/{{url}}/g, `https://lockchampionslocksmith.com/pages/Blog/${blogSlug}.html`) // Uses the correct blog slug
+            .replace(/{{description}}/g, description) // Uses the passed description field
+            .replace(/{{title.replace\(\s\+\/g, '-'\).toLowerCase\(\)}}/g, blogSlug); // Correctly sets the slug.
 
         fs.writeFileSync(blogFilePath, blogContent, 'utf-8');
+
+        console.log('Updating sitemap...');
+        const blogUrl = `https://lockchampionslocksmith.com/pages/Blog/${blogSlug}.html`;
+        updateSitemap(blogUrl, date);
 
         console.log('Blog added successfully!');
         res.status(201).json({ message: 'Blog added successfully!', url: blogFilename });
