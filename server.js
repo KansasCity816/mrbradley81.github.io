@@ -71,9 +71,10 @@ app.post('/add-blog', (req, res) => {
   .replace(/{{author}}/g, author)
   .replace(/{{category}}/g, category)
   .replace(/{{content}}/g, content)
-  .replace(/{{url}}/g, `https://lockchampionslocksmith.com${blogFilename}`)
-  .replace(/{{description}}/g, content.substring(0, 150))
-  .replace(/{{title.replace\(\s\+\/g, '-'\).toLowerCase\(\)}}/g, blogSlug);
+  .replace(/{{url}}/g, `https://lockchampionslocksmith.com/pages/Blog/${blogSlug}.html`) // Uses the correct blog slug
+  .replace(/{{description}}/g, description) // Uses the passed description field
+  .replace(/{{title.replace\(\s\+\/g, '-'\).toLowerCase\(\)}}/g, blogSlug); // Correctly sets the slug.
+
 
 
         fs.writeFileSync(blogFilePath, blogContent, 'utf-8');
