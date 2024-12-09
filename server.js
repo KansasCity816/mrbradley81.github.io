@@ -65,15 +65,16 @@ app.post('/add-blog', (req, res) => {
         console.log('Creating new blog post...');
         const blogTemplate = fs.readFileSync(blogTemplatePath, 'utf-8');
         const blogContent = blogTemplate
-            .replace(/{{title}}/g, title)
-            .replace(/{{image}}/g, image)
-            .replace(/{{date}}/g, formattedDate)
-            .replace(/{{author}}/g, author)
-            .replace(/{{category}}/g, category)
-            .replace(/{{content}}/g, content)
-            .replace(/{{url}}/g, `https://lockchampionslocksmith.com${blogFilename}`)
-            .replace(/{{description}}/g, content.substring(0, 150))
-            .replace(/{{title.replace\(\s\+\/g, '-'\).toLowerCase\(\)}}/g, blogSlug);
+  .replace(/{{title}}/g, title)
+  .replace(/{{image}}/g, image)
+  .replace(/{{date}}/g, formattedDate)
+  .replace(/{{author}}/g, author)
+  .replace(/{{category}}/g, category)
+  .replace(/{{content}}/g, content)
+  .replace(/{{url}}/g, `https://lockchampionslocksmith.com${blogFilename}`)
+  .replace(/{{description}}/g, content.substring(0, 150))
+  .replace(/{{title.replace\(\s\+\/g, '-'\).toLowerCase\(\)}}/g, blogSlug);
+
 
         fs.writeFileSync(blogFilePath, blogContent, 'utf-8');
 
