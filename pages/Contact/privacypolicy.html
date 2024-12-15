@@ -62,7 +62,7 @@
 <meta name="twitter:site" content="@LockChampions_">
 <meta name="twitter:title" content="Contact Lock Champions Locksmith - We're Here to Help">
 <meta name="twitter:description" content="Get in touch with Lock Champions Locksmith for all your locksmith needs. We're available 24/7 for residential, commercial, and automotive services.">
-<meta name="twitter:image" content="https://lockchampionslocksmith.com/assets/images/contact-us-banner.jpg">
+<meta name="twitter:image" content="https://lockchampionslocksmith.com/assets/images/Logo/Logo.png">
 <meta name="twitter:url" content="https://lockchampionslocksmith.com/pages/Contact/Contact.html">
 	
 	
@@ -85,7 +85,7 @@
   <!-- Custom Stylesheets -->
   <link rel="stylesheet" href="../../assets/css/main.css">
   <link rel="stylesheet" href="../../assets/css/responsive.css">
-<script>document.addEventListener("DOMContentLoaded", function () {const linkContainer = document.querySelector('.link h1.page a');if (linkContainer) {const locationText = linkContainer.textContent.trim();const [city, state] = locationText.split(', '); const cityNameElements = document.querySelectorAll('.city-name');const cityDisplayElements = document.querySelectorAll('.city-display');const stateDisplayElements = document.querySelectorAll('.state-display');cityNameElements.forEach(el => el.textContent = `${city}, ${state}`);cityDisplayElements.forEach(el => el.textContent = city);stateDisplayElements.forEach(el => el.textContent = state);console.log(`City and State updated: ${city}, ${state}`);} else {console.error("City and State link not found in the .link section.");}});</script>
+
   <style>
     .contact {
     padding: 0px;
@@ -454,25 +454,7 @@ Indiana/Minnesota</span></p>
   <!-- ==================== Custom Script ==================== -->
 
   <!-- Contact-Form Script -->
-  <script>
-    jQuery('#contact-form').on('submit',function(e){
-      jQuery('#contact-form #msg').html('');
-      jQuery('#contact-form #submit').html('Please wait');
-      jQuery('#contact-form #submit').attr('disabled',true);
-      jQuery.ajax({
-        url:'../../assets/php/submit.php',
-        type:'post',
-        data:jQuery('#contact-form').serialize(),
-        success:function(result){
-          jQuery('#contact-form #msg').html(result);
-          jQuery('#contact-form #submit').html('submit');
-          jQuery('#contact-form #submit').attr('disabled',false);
-          jQuery('#contact-form')[0].reset();
-        }
-      });
-      e.preventDefault();
-    });
-  </script>
+  
 
 <!--Start of Tawk.to Script-->
 <script type="text/javascript">
