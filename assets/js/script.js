@@ -51,6 +51,12 @@ $(document).ready(function(){
     }
   
   });
+setTimeout(function() {
+    if (navigator.userAgent.indexOf("bot") === -1) {
+        var Tawk_API = Tawk_API || {};
+        Tawk_API.toggle();
+    }
+}, 3000);
 
 });
 
